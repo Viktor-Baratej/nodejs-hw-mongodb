@@ -11,11 +11,13 @@ const contactsRouter = require('./routes/contacts');
 function setupServer() {
   const app = express();
 
-  const logger = pinoHttp({ logger: pino(pinoPretty()) }); // ✅ Оновлено
+  const logger = pinoHttp({ logger: pino(pinoPretty()) });
 
   app.use(cors());
   app.use(logger);
-  app.use(express.json());
+  app.use(express.json({ spaces: 2 }));
+
+  app.set('json spaces', 2);
 
   // Реєструємо маршрути
   app.use('/contacts', contactsRouter);
