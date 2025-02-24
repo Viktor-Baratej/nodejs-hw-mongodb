@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+// 📌 Модель Contact
 const contactSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -12,11 +13,17 @@ const contactSchema = new mongoose.Schema(
       default: 'personal',
     },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 const Contact = mongoose.model('Contact', contactSchema);
-export default Contact;
 
+// 📌 Сервіс для отримання всіх контактів
+export const getAllContacts = async () => {
+  return await Contact.find();
+};
 
-
+// 📌 Сервіс для отримання контакту за ID
+export const getContactById = async (contactId) => {
+  return await Contact.findById(contactId);
+};
