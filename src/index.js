@@ -1,7 +1,8 @@
-require('dotenv').config();
-const { setupServer } = require('./server');
-const { initMongoConnection } = require('./db/initMongoConnection');
-const Contact = require('./models/Contact');
+
+import 'dotenv/config';
+import setupServer from './server.js';
+import initMongoConnection from './db/initMongoConnection.js';
+import Contact from './models/Contact.js';
 
 (async () => {
   await initMongoConnection();
@@ -14,3 +15,4 @@ const Contact = require('./models/Contact');
   }
   setupServer();
 })();
+

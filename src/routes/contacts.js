@@ -1,7 +1,8 @@
-const express = require('express');
-const Contact = require('../models/Contact');
+import express from 'express';
+import Contact from '../models/Contact.js';
 const router = express.Router();
 
+// GET /contacts - Отримати всі контакти
 router.get('/', async (req, res) => {
   try {
     const contacts = await Contact.find();
@@ -15,8 +16,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-module.exports = router;
-
+// GET /contacts/:contactId - Отримати контакт за ID
 router.get('/:contactId', async (req, res) => {
   try {
     const contact = await Contact.findById(req.params.contactId);
@@ -32,3 +32,5 @@ router.get('/:contactId', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+export default router;
