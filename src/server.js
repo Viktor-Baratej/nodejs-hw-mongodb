@@ -7,7 +7,6 @@ import { getAllContacts, getContactById } from './services/contacts.js';
 
 function setupServer() {
   const app = express();
-
   const logger = pinoHttp({ logger: pino(pinoPretty()) });
 
   app.use(cors());
@@ -25,6 +24,7 @@ function setupServer() {
         data: contacts,
       });
     } catch (error) {
+      console.error(error);
       res.status(500).json({ message: 'Server error' });
     }
   });
@@ -42,6 +42,7 @@ function setupServer() {
         data: contact,
       });
     } catch (error) {
+      console.error(error);
       res.status(500).json({ message: 'Server error' });
     }
   });
