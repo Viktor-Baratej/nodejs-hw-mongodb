@@ -1,7 +1,7 @@
 import createError from 'http-errors';
 import * as contactsService from '../services/contacts.js';
 
-// 📌 Отримати всі контакти
+// Отримати всі контакти
 export const getAllContacts = async (req, res) => {
   try {
     const contacts = await contactsService.getAllContacts();
@@ -16,7 +16,7 @@ export const getAllContacts = async (req, res) => {
   }
 };
 
-// 📌 Отримати контакт за ID
+// Отримати контакт за ID
 export const getContactById = async (req, res, next) => {
   try {
     const contact = await contactsService.getContactById(req.params.contactId);
@@ -29,7 +29,7 @@ export const getContactById = async (req, res, next) => {
   }
 };
 
-// 📌 Створити новий контакт
+// Створити новий контакт
 export const createContact = async (req, res, next) => {
   try {
     const { name, phoneNumber, email, isFavourite, contactType } = req.body;
@@ -59,7 +59,7 @@ export const createContact = async (req, res, next) => {
   }
 };
 
-// 📌 Оновити контакт
+// Оновити контакт
 export const updateContact = async (req, res, next) => {
   try {
     const { contactId } = req.params;
@@ -88,7 +88,7 @@ export const updateContact = async (req, res, next) => {
   }
 };
 
-// 📌 Видалити контакт
+// Видалити контакт
 export const deleteContact = async (req, res, next) => {
   try {
     const { contactId } = req.params;

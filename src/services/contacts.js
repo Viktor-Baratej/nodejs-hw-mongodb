@@ -1,20 +1,21 @@
 import Contact from '../models/contact.js';
 
-// 📌 Сервіс для отримання всіх контактів
+// Сервіс для отримання всіх контактів
 export const getAllContacts = async () => {
   return await Contact.find();
 };
 
-// 📌 Сервіс для отримання контакту за ID
+// Сервіс для отримання контакту за ID
 export const getContactById = async (contactId) => {
   return await Contact.findById(contactId);
 };
 
-// 📌 Сервіс для створення нового контакту
+// Сервіс для створення нового контакту
 export const createContact = async (data) => {
   return await Contact.create(data);
 };
 
+//  Сервіс для зміни контакту
 export const updateContact = async (id, data) => {
   return await Contact.findByIdAndUpdate(id, data, {
     new: true,
@@ -22,6 +23,7 @@ export const updateContact = async (id, data) => {
   });
 };
 
+// Сервіс для видалення контакту
 export const deleteContact = async (id) => {
   return await Contact.findByIdAndDelete(id);
 };
