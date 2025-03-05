@@ -97,6 +97,8 @@ export const deleteContact = async (req, res, next) => {
     if (!deletedContact) {
       throw createError(404, 'Contact not found');
     }
+
+    res.status(204).send();
   } catch (error) {
     next(error);
   }
