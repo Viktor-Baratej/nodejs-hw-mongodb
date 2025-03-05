@@ -8,7 +8,7 @@ const contactSchema = new mongoose.Schema(
     isFavourite: { type: Boolean, default: false },
     contactType: {
       type: String,
-      enum: ['work', 'home', 'personal'],
+      enum: ['work', 'home', 'personal' 'business'],
       default: 'personal',
     },
   },
