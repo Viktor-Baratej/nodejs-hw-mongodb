@@ -4,8 +4,8 @@ import pino from 'pino';
 import pinoHttp from 'pino-http';
 import pinoPretty from 'pino-pretty';
 import contactsRouter from './routers/contacts.js';
-import errorHandler from './middlewares/errorHandler.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
+import errorHandler from './middlewares/errorHandler.js';
 
 function setupServer() {
   const app = express();
@@ -17,11 +17,6 @@ function setupServer() {
 
   // Використання контактного роутера
   app.use('/contacts', contactsRouter);
-
-  // Обробка неіснуючих маршрутів
-  app.use((req, res) => {
-    res.status(404).json({ message: 'Not found' });
-  });
 
   // Middleware для обробки запитів до неіснуючих маршрутів
   app.use(notFoundHandler);
