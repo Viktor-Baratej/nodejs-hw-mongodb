@@ -1,8 +1,22 @@
 import Contact from '../models/contact.js';
 
-// Сервіс для отримання всіх контактів
-export const getAllContacts = async () => {
-  return await Contact.find();
+// Сервіс для отримання всіх контактів з підтримкою пагінації, ільтрації та сортування
+export const getFilteredContacts = async ({
+  filter,
+  skip,
+  limit,
+  sortBy,
+  sortOrder,
+}) => {
+  return await Contact.find(filter)
+    .skip(skip)
+    .limit(limit)
+    .sort({ [sortBy]: sortOrder });
+};
+
+// Підрахувати загальну кількість контактів після фільтрації
+export const countFilteredContacts = async (filter) => {
+  return await Contact.countDocuments(filter);
 };
 
 // Сервіс для отримання контакту за ID
