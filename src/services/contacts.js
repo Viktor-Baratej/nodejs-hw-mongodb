@@ -1,7 +1,7 @@
 import Contact from '../models/contact.js';
 
 // Сервіс для отримання всіх контактів з підтримкою пагінації, ільтрації та сортування
-export const getFilteredContacts = async ({
+export const getPaginatedContacts = async ({
   filter,
   skip,
   limit,

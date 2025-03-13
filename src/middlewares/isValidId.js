@@ -1,11 +1,14 @@
-import isValidObjectId from 'mongoose';
-import BadRequest from 'http-errors';
+import mongoose from 'mongoose';
+import createError from 'http-errors';
 
 const isValidId = (req, res, next) => {
   const { contactId } = req.params;
-  if (!isValidObjectId(contactId)) {
-    return next(BadRequest('Invalid contact ID format'));
+
+  if (!mongoose.Types.ObjectId.isValid(contactId)) {
+    return next(createError(400, 'Invalid contact ID format'));
   }
+
   next();
 };
+
 export default isValidId;
