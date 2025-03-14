@@ -10,24 +10,24 @@ import {
 
 const router = express.Router();
 
-// Отримати всі контакти
+// Отримання всіх контактів
 router.get('/', ctrlWrapper(contactsController.getAllContacts));
 
-// Отримати контакт за ID
+// Отримання контакту за ID
 router.get(
   '/:contactId',
   isValidId,
   ctrlWrapper(contactsController.getContactById),
 );
 
-// Створити новий контакт (з валідацією `body`)
+// Створення нового контакту
 router.post(
   '/',
   validateBody(contactSchema),
   ctrlWrapper(contactsController.createContact),
 );
 
-// Оновити контакт (з валідацією `body` та `contactId`)
+// Оновлення контакту
 router.patch(
   '/:contactId',
   isValidId,
@@ -35,7 +35,7 @@ router.patch(
   ctrlWrapper(contactsController.updateContact),
 );
 
-// Видалити контакт
+// Видалення контакту
 router.delete(
   '/:contactId',
   isValidId,

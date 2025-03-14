@@ -7,7 +7,7 @@ export const getAllContacts = async (req, res, next) => {
     const page = parseInt(req.query.page) || 1;
     const perPage = parseInt(req.query.perPage) || 10;
     const sortBy = req.query.sortBy || 'name'; // За замовчуванням сортування за ім'ям
-    const sortOrder = req.query.sortOrder === 'desc' ? -1 : 1; // Висхідне або низхідне сортування
+    const sortOrder = req.query.sortOrder === 'desc' ? -1 : 1; // Визхідне або низхідне сортування
 
     // Фільтри
     const filter = {};
@@ -68,23 +68,14 @@ export const getContactById = async (req, res, next) => {
 // Створити новий контакт
 export const createContact = async (req, res, next) => {
   try {
-    const { name, phoneNumber, email, isFavourite, contactType } = req.body;
-
-    if (!name || !phoneNumber || !contactType) {
-      throw createError(
-        400,
-        'Missing required fields: name, phoneNumber, or contactType',
-      );
-    }
-
+    const { name, phoneNumber, email, contactType, isFavourite } = req.body;
     const newContact = await contactsService.createContact({
       name,
       phoneNumber,
       email,
-      isFavourite,
       contactType,
+      isFavourite,
     });
-
     res.status(201).json({
       status: 201,
       message: 'Successfully created a contact!',
@@ -100,11 +91,6 @@ export const updateContact = async (req, res, next) => {
   try {
     const { contactId } = req.params;
     const updateData = req.body;
-
-    if (Object.keys(updateData).length === 0) {
-      throw createError(400, 'No fields provided for update');
-    }
-
     const updatedContact = await contactsService.updateContact(
       contactId,
       updateData,
@@ -113,7 +99,6 @@ export const updateContact = async (req, res, next) => {
     if (!updatedContact) {
       throw createError(404, 'Contact not found');
     }
-
     res.status(200).json({
       status: 200,
       message: 'Successfully patched a contact!',
@@ -133,7 +118,6 @@ export const deleteContact = async (req, res, next) => {
     if (!deletedContact) {
       throw createError(404, 'Contact not found');
     }
-
     res.status(204).send();
   } catch (error) {
     next(error);
