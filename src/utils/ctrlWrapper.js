@@ -1,4 +1,5 @@
 // функція-обгортка для контролерів
+
 const ctrlWrapper = (ctrl) => {
   //  Приймає контролер як параметр
   return async (req, res, next) => {
