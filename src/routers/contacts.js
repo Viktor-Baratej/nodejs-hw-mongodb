@@ -7,9 +7,11 @@ import {
   contactSchema,
   updateContactSchema,
 } from '../schema/contactSchemas.js';
+import authenticate from '../middlewares/authenticate.js';
 
 const router = express.Router();
 
+router.use(authenticate);
 // Отримання всіх контактів
 router.get('/', ctrlWrapper(contactsController.getAllContacts));
 
