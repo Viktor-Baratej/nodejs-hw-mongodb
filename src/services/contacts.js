@@ -1,6 +1,6 @@
 import Contact from '../models/contact.js';
 
-// Сервіс для отримання всіх контактів з підтримкою пагінації, ільтрації та сортування
+// Отримати список контактів з підтримкою пагінації, фільтрації, сортування
 export const getPaginatedContacts = async ({
   filter,
   skip,
@@ -14,30 +14,30 @@ export const getPaginatedContacts = async ({
     .sort({ [sortBy]: sortOrder });
 };
 
-// Підрахувати загальну кількість контактів після фільтрації
+// Підрахунок кількості контактів після фільтрації
 export const countFilteredContacts = async (filter) => {
   return await Contact.countDocuments(filter);
 };
 
-// Сервіс для отримання контакту за ID
-export const getContactById = async (contactId) => {
-  return await Contact.findById(contactId);
+// Отримати контакт за ID і userId
+export const getContactById = async (contactId, userId) => {
+  return await Contact.findOne({ _id: contactId, userId });
 };
 
-// Сервіс для створення нового контакту
+// Створити новий контакт
 export const createContact = async (data) => {
   return await Contact.create(data);
 };
 
-//  Сервіс для зміни контакту
-export const updateContact = async (id, data) => {
-  return await Contact.findByIdAndUpdate(id, data, {
+// Оновити контакт по ID та userId
+export const updateContact = async (contactId, userId, data) => {
+  return await Contact.findOneAndUpdate({ _id: contactId, userId }, data, {
     new: true,
     runValidators: true,
   });
 };
 
-// Сервіс для видалення контакту
-export const deleteContact = async (id) => {
-  return await Contact.findByIdAndDelete(id);
+// Видалити контакт по ID та userId
+export const deleteContact = async (contactId, userId) => {
+  return await Contact.findOneAndDelete({ _id: contactId, userId });
 };
