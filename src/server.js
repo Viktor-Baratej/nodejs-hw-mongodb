@@ -7,6 +7,7 @@ import contactsRouter from './routers/contacts.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
 import errorHandler from './middlewares/errorHandler.js';
 import Router from './routers/auth.js';
+import cookieParser from 'cookie-parser';
 
 function setupServer() {
   const app = express();
@@ -15,7 +16,7 @@ function setupServer() {
   app.use(cors());
   app.use(logger);
   app.use(express.json({ spaces: 2 }));
-
+  app.use(cookieParser());
   app.use('/auth', Router);
 
   // Використання контактного роутера

@@ -20,8 +20,8 @@ const registerUser = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ name, email, password: hashedPassword });
 
-    res.status(201).json({
-      status: 'success',
+    res.status(200).json({
+      status: 200,
       message: 'Successfully registered a user!',
       data: { id: user._id, name: user.name, email: user.email },
     });
@@ -30,19 +30,28 @@ const registerUser = async (req, res, next) => {
   }
 };
 
-const loginUser = async (req, res, next) => {
+export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
 
-    if (!user) throw createHttpError(401, 'Invalid credentials');
+    if (!email || !password) {
+      throw createHttpError(400, 'Email and password are required');
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw createHttpError(401, 'Invalid credentials');
+    }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) throw createHttpError(401, 'Invalid credentials');
+    if (!isPasswordValid) {
+      throw createHttpError(401, 'Invalid credentials');
+    }
 
     const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: '15m',
     });
+
     const refreshToken = jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET,
@@ -58,9 +67,14 @@ const loginUser = async (req, res, next) => {
       refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     });
 
-    res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true });
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'None',
+    });
+
     res.status(200).json({
-      status: 'success',
+      status: 200,
       message: 'Successfully logged in a user!',
       data: { accessToken },
     });
@@ -103,7 +117,7 @@ const refreshSession = async (req, res, next) => {
       secure: true,
     });
     res.status(200).json({
-      status: 'success',
+      status: 200,
       message: 'Successfully refreshed a session!',
       data: { accessToken },
     });
