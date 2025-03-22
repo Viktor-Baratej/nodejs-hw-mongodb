@@ -38,6 +38,10 @@ export const loginUser = async (req, res, next) => {
       throw createHttpError(400, 'Email and password are required');
     }
 
+    if (!process.env.JWT_SECRET) {
+      throw createHttpError(500, 'JWT_SECRET is not defined');
+    }
+
     const user = await User.findOne({ email });
     if (!user) {
       throw createHttpError(401, 'Invalid credentials');
@@ -69,8 +73,8 @@ export const loginUser = async (req, res, next) => {
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'None',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
     });
 
     res.status(200).json({
@@ -79,9 +83,11 @@ export const loginUser = async (req, res, next) => {
       data: { accessToken },
     });
   } catch (error) {
+    console.error('❌ loginUser error:', error);
     next(error);
   }
 };
+
 
 const refreshSession = async (req, res, next) => {
   try {
