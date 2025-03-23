@@ -20,8 +20,8 @@ const registerUser = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ name, email, password: hashedPassword });
 
-    res.status(200).json({
-      status: 200,
+    res.status(201).json({
+      status: 201,
       message: 'Successfully registered a user!',
       data: { id: user._id, name: user.name, email: user.email },
     });
@@ -87,7 +87,6 @@ export const loginUser = async (req, res, next) => {
     next(error);
   }
 };
-
 
 const refreshSession = async (req, res, next) => {
   try {
