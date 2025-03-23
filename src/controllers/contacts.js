@@ -4,17 +4,14 @@ import createError from 'http-errors';
 // Отримати всі контакти
 export const getAllContacts = async (req, res, next) => {
   try {
-    const userId = req.user?._id?.toString();
-    if (!userId) {
-      throw createError(401, 'Not authorized (missing userId)');
-    }
+    const userId = req.user._id.toString();
 
     const page = parseInt(req.query.page) || 1;
     const perPage = parseInt(req.query.perPage) || 10;
     const sortBy = req.query.sortBy || 'name';
     const sortOrder = req.query.sortOrder === 'desc' ? -1 : 1;
 
-    const filter = { userId }; // 🔐 фільтрація по авторизованому користувачу
+    const filter = { userId };
 
     if (req.query.type) filter.contactType = req.query.type;
     if (req.query.isFavourite !== undefined) {
@@ -22,7 +19,6 @@ export const getAllContacts = async (req, res, next) => {
     }
 
     const skip = (page - 1) * perPage;
-
     const totalItems = await contactsService.countFilteredContacts(filter);
     const contacts = await contactsService.getPaginatedContacts({
       filter,
@@ -54,7 +50,7 @@ export const getAllContacts = async (req, res, next) => {
 // Отримати контакт за ID
 export const getContactById = async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user._id.toString();
     const contact = await contactsService.getContactById(
       req.params.contactId,
       userId,
@@ -73,7 +69,8 @@ export const getContactById = async (req, res, next) => {
 // Створити новий контакт
 export const createContact = async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user._id;
+
     const { name, phoneNumber, email, contactType, isFavourite } = req.body;
 
     const newContact = await contactsService.createContact({
@@ -82,7 +79,7 @@ export const createContact = async (req, res, next) => {
       email,
       contactType,
       isFavourite,
-      userId, // 🔐 додаємо userId
+      userId,
     });
 
     res.status(201).json({
@@ -98,7 +95,7 @@ export const createContact = async (req, res, next) => {
 // Оновити контакт
 export const updateContact = async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user._id.toString();
     const { contactId } = req.params;
     const updateData = req.body;
 
@@ -125,7 +122,7 @@ export const updateContact = async (req, res, next) => {
 // Видалити контакт
 export const deleteContact = async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user._id.toString();
     const { contactId } = req.params;
 
     const deletedContact = await contactsService.deleteContact(
