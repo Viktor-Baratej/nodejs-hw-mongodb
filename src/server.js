@@ -8,6 +8,7 @@ import notFoundHandler from './middlewares/notFoundHandler.js';
 import errorHandler from './middlewares/errorHandler.js';
 import Router from './routers/auth.js';
 import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
 
 function setupServer() {
   const app = express();
@@ -28,7 +29,9 @@ function setupServer() {
   // Middleware для обробки помилок
   app.use(errorHandler);
 
-  const PORT = process.env.PORT || 3003;
+  dotenv.config();
+
+  const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
