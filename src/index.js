@@ -2,6 +2,7 @@ import 'dotenv/config';
 import setupServer from './server.js';
 import mongoose from 'mongoose';
 
+
 async function initMongoConnection() {
   try {
     await mongoose.connect(
