@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 import createHttpError from 'http-errors';
 import User from '../models/user.js';
 import Session from '../models/session.js';
-import sendEmail from '../helpers/sendemail.js';
+import sendEmail from '../helpers/sendEmail.js';
 
 const { JWT_SECRET, APP_DOMAIN } = process.env;
 
