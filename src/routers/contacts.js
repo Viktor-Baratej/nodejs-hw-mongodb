@@ -3,6 +3,7 @@ import * as contactsController from '../controllers/contacts.js';
 import ctrlWrapper from '../utils/ctrlWrapper.js';
 import validateBody from '../middlewares/validateBody.js';
 import isValidId from '../middlewares/isValidId.js';
+import upload from '../middlewares/upload.js';
 import {
   contactSchema,
   updateContactSchema,
@@ -12,27 +13,26 @@ import authenticate from '../middlewares/authenticate.js';
 const router = express.Router();
 
 router.use(authenticate);
+
 // Отримання всіх контактів
 router.get('/', ctrlWrapper(contactsController.getAllContacts));
 
 // Отримання контакту за ID
-router.get(
-  '/:contactId',
-  isValidId,
-  ctrlWrapper(contactsController.getContactById),
-);
+router.get('/:contactId', isValidId, ctrlWrapper(contactsController.getContactById));
 
-// Створення нового контакту
+// Створення нового контакту з фото
 router.post(
   '/',
+  upload.single('photo'),
   validateBody(contactSchema),
   ctrlWrapper(contactsController.createContact),
 );
 
-// Оновлення контакту
+// Оновлення контакту з фото
 router.patch(
   '/:contactId',
   isValidId,
+  upload.single('photo'),
   validateBody(updateContactSchema),
   ctrlWrapper(contactsController.updateContact),
 );
