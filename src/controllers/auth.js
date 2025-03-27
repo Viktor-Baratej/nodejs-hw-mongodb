@@ -1,12 +1,18 @@
-import bcrypt from 'bcrypt';
-import createHttpError from 'http-errors';
-import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import createHttpError from 'http-errors';
 import User from '../models/user.js';
 import Session from '../models/session.js';
+import sendEmail from '../helpers/sendemail.js';
+
+const { JWT_SECRET, APP_DOMAIN } = process.env;
 
 const ACCESS_TOKEN_EXPIRES_IN = '15m';
 const REFRESH_TOKEN_EXPIRES_IN = '30d';
+
 
 const registerUser = async (req, res, next) => {
   try {
@@ -158,9 +164,77 @@ export const logoutUser = async (req, res, next) => {
   }
 };
 
+export const sendResetEmail = async (req, res) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw createHttpError(404, 'User not found!');
+  }
+
+  const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: '5m' });
+  const resetLink = `${APP_DOMAIN}/reset-password?token=${token}`;
+
+  try {
+    await sendEmail({
+      to: email,
+      subject: 'Reset your password',
+      html: `<p>To reset your password, click the link below:</p>
+             <a href="${resetLink}">${resetLink}</a>`,
+    });
+
+    res.status(200).json({
+      status: 200,
+      message: 'Reset password email has been successfully sent.',
+      data: {},
+    });
+  } catch (error) {
+    console.error('❌ Error while sending reset email:', error);
+    throw createHttpError(500, 'Failed to send the email, please try again later.');
+  }
+};
+
+export const resetPassword = async (req, res, next) => {
+  const { token, password } = req.body;
+
+  try {
+    let payload;
+
+    try {
+      payload = jwt.verify(token, JWT_SECRET);
+    } catch (err) {
+      return next(createHttpError(401, 'Token is expired or invalid.'));
+    }
+
+    const user = await User.findOne({ email: payload.email });
+    if (!user) {
+      throw createHttpError(404, 'User not found!');
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    // Видалити всі активні сесії користувача
+    await Session.deleteMany({ userId: user._id });
+
+    res.status(200).json({
+      status: 200,
+      message: 'Password has been successfully reset.',
+      data: {},
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 export default {
   registerUser,
   loginUser,
   refreshSession,
   logoutUser,
+  sendResetEmail,
+  resetPassword,
 };
+

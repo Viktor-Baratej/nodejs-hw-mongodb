@@ -19,6 +19,7 @@ function setupServer() {
   app.use(express.json({ spaces: 2 }));
   app.use(cookieParser());
   app.use('/auth', Router);
+  app.use('/api/auth', Router);
 
   // Використання контактного роутера
   app.use('/contacts', contactsRouter);

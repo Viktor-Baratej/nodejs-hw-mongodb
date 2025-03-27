@@ -72,7 +72,7 @@ export const createContact = async (req, res, next) => {
     const userId = req.user._id;
 
     const { name, phoneNumber, email, contactType, isFavourite } = req.body;
-
+    const photo = req.file?.path || null;
     const newContact = await contactsService.createContact({
       name,
       phoneNumber,
@@ -80,6 +80,7 @@ export const createContact = async (req, res, next) => {
       contactType,
       isFavourite,
       userId,
+      photo,
     });
 
     res.status(201).json({
@@ -97,7 +98,11 @@ export const updateContact = async (req, res, next) => {
   try {
     const userId = req.user._id.toString();
     const { contactId } = req.params;
-    const updateData = req.body;
+    const updateData = { ...req.body };
+    if (req.file?.path) {
+      updateData.photo = req.file.path;
+    }
+
 
     const updatedContact = await contactsService.updateContact(
       contactId,
