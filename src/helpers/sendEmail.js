@@ -20,6 +20,7 @@ const sendEmail = async ({ to, subject, html }) => {
   };
 
   await transport.sendMail(email);
+  console.log(`✅ Email sent to ${to} with subject "${subject}"`);
 };
 
 export default sendEmail;
