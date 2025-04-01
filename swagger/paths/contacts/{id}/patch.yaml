@@ -1,0 +1,29 @@
+patch:
+  tags:
+    - Contacts
+  summary: Оновити контакт за ID
+  operationId: updateContactById
+  description: Оновлює дані певного контакта за його ID
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: contactId
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../../components/schemas/UpdateContact.yaml'
+  responses:
+    '200':
+      description: Контакт оновлено
+      content:
+        application/json:
+          schema:
+            $ref: '../../../components/schemas/Contact.yaml'
+    '404':
+      description: Контакт не знайдено
