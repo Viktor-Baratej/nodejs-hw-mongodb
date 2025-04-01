@@ -1,0 +1,11 @@
+{
+  "web": {
+    "client_id": "6641503787-ngr7hdk78v7hu0pr153cnd7co2sv8mal.apps.googleusercontent.com",
+    "project_id": "sage-cycling-455515-g6",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "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",
+    "redirect_uris": ["http://localhost:3001/confirm-google-auth"]
+  }
+}
