@@ -1,7 +1,7 @@
 patch:
   tags:
     - Contacts
-  summary: Оновити контакт за ID
+  summary: Оновити контакт за Id
   operationId: updateContactById
   description: Оновлює дані певного контакта за його ID
   security:
@@ -17,13 +17,13 @@ patch:
     content:
       application/json:
         schema:
-          $ref: '../../../components/schemas/UpdateContact.yaml'
+          $ref: '../../../swagger/components/UpdateContact.yaml'
   responses:
     '200':
       description: Контакт оновлено
       content:
         application/json:
           schema:
-            $ref: '../../../components/schemas/Contact.yaml'
+            $ref: '../../../swagger/components/Contact.yaml'
     '404':
       description: Контакт не знайдено

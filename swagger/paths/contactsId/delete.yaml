@@ -1,7 +1,7 @@
 delete:
   tags:
     - Contacts
-  summary: Видалити контакт за ID
+  summary: Видалити контакт за Id
   operationId: deleteContactById
   description: Видаляє контакт із бази даних
   security:

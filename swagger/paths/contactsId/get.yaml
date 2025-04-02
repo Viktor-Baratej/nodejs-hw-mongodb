@@ -1,7 +1,7 @@
 get:
   tags:
     - Contacts
-  summary: Отримати контакт за ID
+  summary: Отримати контакт за Id
   operationId: getContactById
   description: Отримати інформацію про конкретного контакта за його унікальним ідентифікатором.
   security:
@@ -19,6 +19,6 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../../components/schemas/Contact.yaml'
+            $ref: '../../../swagger/components/Contact.yaml'
     '404':
       description: Контакт не знайдено
