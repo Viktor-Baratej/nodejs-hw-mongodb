@@ -33,4 +33,4 @@ get:
           schema:
             type: array
             items:
-              $ref: '../../components/schemas/Contact.yaml'
+              $ref: '../../swagger/components/Contact.yaml'

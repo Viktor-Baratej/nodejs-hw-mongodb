@@ -10,9 +10,9 @@ import Router from './routers/auth.js';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
-import YAML from 'yamljs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 
 // Ініціалізуємо змінні оточення
 dotenv.config();
@@ -21,8 +21,9 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Завантаження Swagger документації
-const swaggerDocument = YAML.load(path.join(__dirname, './docs/openapi.yaml'));
+const swaggerDocument = JSON.parse(
+  fs.readFileSync(new URL('../docs/swagger.json', import.meta.url))
+);
 
 function setupServer() {
   const app = express();
@@ -33,24 +34,22 @@ function setupServer() {
   app.use(express.json({ spaces: 2 }));
   app.use(cookieParser());
 
-  // Маршрути
+  // Роути
   app.use('/auth', Router);
   app.use('/api/auth', Router);
   app.use('/contacts', contactsRouter);
 
-  // Документація Swagger UI
+  // Swagger документація
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-  // Middleware
+  // Обробники помилок
   app.use(notFoundHandler);
   app.use(errorHandler);
 
   const PORT = process.env.PORT || 3001;
   app.listen(PORT, () => {
     console.log(`✅ Server is running on port ${PORT}`);
-    console.log(
-      `📚 Swagger Docs available at http://localhost:${PORT}/api-docs`,
-    );
+    console.log(`📚 Swagger Docs: http://localhost:${PORT}/api-docs`);
   });
 }
 

@@ -2,10 +2,10 @@ type: object
 properties:
   name:
     type: string
-    example: Bob Marley
+    example: Artem Baratej
   email:
     type: string
-    example: bob@example.com
+    example: artemb@example.com
   phone:
     type: string
     example: +380991234567
