@@ -10,6 +10,7 @@ patch:
     - name: contactId
       in: path
       required: true
+      description: Унікальний ідентифікатор контакту
       schema:
         type: string
   requestBody:

@@ -2,9 +2,17 @@ type: object
 properties:
   name:
     type: string
+    example: "Artem Baratej"
   email:
     type: string
+    example: "artemb@example.com"
   phone:
     type: string
+    example: "+380991234567"
   favorite:
     type: boolean
+    example: false
+required:
+  - name
+  - email
+  - phone

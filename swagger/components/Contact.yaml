@@ -2,22 +2,22 @@ type: object
 properties:
   _id:
     type: string
-    example: 6435fc7c11f9c8a6e4e1e994
+    example: "6435fc7c11f9c8a6e4e1e994"
   name:
     type: string
-    example: Viktor Baratej
+    example: "Viktor Baratej"
   email:
     type: string
-    example: Viktor1baratejj@gmail.com
+    example: "Viktor1baratejj@gmail.com"
   phone:
     type: string
-    example: +380660728708
+    example: "+380660728708"
   favorite:
     type: boolean
     example: false
   photo:
     type: string
-    example: https://res.cloudinary.com/demo/image/upload/sample.jpg
+    example: "https://res.cloudinary.com/demo/image/upload/sample.jpg"
 required:
   - name
   - email

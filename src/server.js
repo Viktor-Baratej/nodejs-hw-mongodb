@@ -1,5 +1,5 @@
 import express from 'express';
-import cors from 'cors';
+import cors from 'cors'; // Імпортуємо cors
 import pino from 'pino';
 import pinoHttp from 'pino-http';
 import pinoPretty from 'pino-pretty';
@@ -16,17 +16,11 @@ import fs from 'fs';
 import './auth/googleStrategy.js';
 import googleAuthRouter from './routers/authGoogle.js';
 
-
-
-
 // Ініціалізуємо змінні оточення
 dotenv.config();
 
-
 // Фікс для __dirname у ESM
 const __filename = fileURLToPath(import.meta.url);
-
-// eslint-disable-next-line no-undef
 const __dirname = path.dirname(__filename);
 
 const swaggerDocument = JSON.parse(
@@ -35,9 +29,16 @@ const swaggerDocument = JSON.parse(
 
 function setupServer() {
   const app = express();
+
+  // Налаштовуємо CORS
+  app.use(cors({
+    origin: 'https://nodejs-hw-mongodb-7-gti2.onrender.com',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    credentials: true // Для підтримки cookies
+  }));
+
   const logger = pinoHttp({ logger: pino(pinoPretty()) });
   app.use('/auth', googleAuthRouter);
-  app.use(cors());
   app.use(logger);
   app.use(express.json({ spaces: 2 }));
   app.use(cookieParser());
