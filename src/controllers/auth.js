@@ -4,7 +4,7 @@ dotenv.config();
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import createHttpError from 'http-errors';
-import User from '../models/User.js';
+import User from '../models/user.js';
 import Session from '../models/session.js';
 import sendEmail from '../helpers/sendEmail.js';
 
