@@ -148,6 +148,7 @@
               "name": "contactId",
               "in": "path",
               "required": true,
+              "description": "Унікальний ідентифікатор контакту",
               "schema": {
                 "type": "string"
               }
@@ -188,6 +189,7 @@
               "name": "contactId",
               "in": "path",
               "required": true,
+              "description": "Унікальний ідентифікатор контакту",
               "schema": {
                 "type": "string"
               }
@@ -238,6 +240,7 @@
               "name": "contactId",
               "in": "path",
               "required": true,
+              "description": "Унікальний ідентифікатор контакту",
               "schema": {
                 "type": "string"
               }
@@ -294,7 +297,7 @@
           },
           "phone": {
             "type": "string",
-            "example": 380660728708
+            "example": "+380660728708"
           },
           "favorite": {
             "type": "boolean",
@@ -324,7 +327,7 @@
           },
           "phone": {
             "type": "string",
-            "example": 380991234567
+            "example": "+380991234567"
           },
           "favorite": {
             "type": "boolean",
@@ -341,18 +344,27 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "Artem Baratej"
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "example": "artemb@example.com"
           },
           "phone": {
-            "type": "string"
+            "type": "string",
+            "example": "+380991234567"
           },
           "favorite": {
-            "type": "boolean"
+            "type": "boolean",
+            "example": false
           }
-        }
+        },
+        "required": [
+          "name",
+          "email",
+          "phone"
+        ]
       }
     }
   }
