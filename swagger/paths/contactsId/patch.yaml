@@ -17,13 +17,13 @@ patch:
     content:
       application/json:
         schema:
-          $ref: '../../../swagger/components/UpdateContact.yaml'
+          $ref: '#/components/schemas/UpdateContact'
   responses:
     '200':
       description: Контакт оновлено
       content:
         application/json:
           schema:
-            $ref: '../../../swagger/components/Contact.yaml'
+            $ref: '#/components/schemas/Contact'
     '404':
       description: Контакт не знайдено

@@ -3,14 +3,13 @@ get:
     - Contacts
   summary: Отримати контакт за Id
   operationId: getContactById
-  description: Отримати інформацію про конкретного контакта за його унікальним ідентифікатором.
+  description: Отримати інформацію про конкретного контакта за його унікальним ідентифікатором
   security:
     - bearerAuth: []
   parameters:
     - name: contactId
       in: path
       required: true
-      description: Унікальний ідентифікатор контакту
       schema:
         type: string
   responses:
@@ -19,6 +18,6 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../../swagger/components/Contact.yaml'
+            $ref: '#/components/schemas/Contact'
     '404':
       description: Контакт не знайдено

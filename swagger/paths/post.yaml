@@ -11,13 +11,13 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../../swagger/components/NewContact.yaml'
+          $ref: '#/components/schemas/NewContact'
   responses:
     '201':
       description: Контакт створено
       content:
         application/json:
           schema:
-            $ref: '../../swagger/components/Contact.yaml'
+            $ref: '#/components/schemas/Contact'
     '400':
       description: Некоректні дані

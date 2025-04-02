@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    googleId: String,
   },
   {
     versionKey: false,
@@ -22,6 +23,5 @@ const userSchema = new mongoose.Schema(
   },
 );
 
-const User = mongoose.model('User', userSchema);
-
+const User = mongoose.models.User || mongoose.model('User', userSchema);
 export default User;
