@@ -25,6 +25,8 @@ dotenv.config();
 
 // Фікс для __dirname у ESM
 const __filename = fileURLToPath(import.meta.url);
+
+// eslint-disable-next-line no-undef
 const __dirname = path.dirname(__filename);
 
 const swaggerDocument = JSON.parse(
