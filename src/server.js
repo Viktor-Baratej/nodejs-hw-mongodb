@@ -13,9 +13,15 @@ import swaggerUi from 'swagger-ui-express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import './auth/googleStrategy.js';
+import googleAuthRouter from './routers/authGoogle.js';
+
+
+
 
 // Ініціалізуємо змінні оточення
 dotenv.config();
+
 
 // Фікс для __dirname у ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -28,7 +34,7 @@ const swaggerDocument = JSON.parse(
 function setupServer() {
   const app = express();
   const logger = pinoHttp({ logger: pino(pinoPretty()) });
-
+  app.use('/auth', googleAuthRouter);
   app.use(cors());
   app.use(logger);
   app.use(express.json({ spaces: 2 }));

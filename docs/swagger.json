@@ -3,24 +3,28 @@
   "info": {
     "version": "1.0.0",
     "title": "Contact Book API",
+    "description": "Це API для керування контактами користувача. Ви можете створювати, оновлювати, видаляти та переглядати контакти.\n",
     "license": {
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-    },
-    "description": "Це API для керування контактами користувача. Ви можете створювати, оновлювати, видаляти та переглядати контакти.\n"
+    }
   },
   "servers": [
     {
       "url": "http://localhost:3001"
     },
     {
-      "url": "https://nodejs-hw-mongodb-6-a7dx.onrender.com"
+      "url": "https://nodejs-hw-mongodb-7-gti2.onrender.com"
     }
   ],
   "tags": [
     {
       "name": "Contacts",
       "description": "Операції для роботи з контактами"
+    },
+    {
+      "name": "Auth",
+      "description": "Авторизація та логін користувачів"
     }
   ],
   "paths": {
@@ -75,7 +79,7 @@
                   "schema": {
                     "type": "array",
                     "items": {
-                      "$ref": "../../swagger/components/Contact.yaml"
+                      "$ref": "#/components/schemas/Contact"
                     }
                   }
                 }
@@ -102,7 +106,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../swagger/components/NewContact.yaml"
+                  "$ref": "#/components/schemas/NewContact"
                 }
               }
             }
@@ -113,7 +117,7 @@
               "content": {
                 "application/json": {
                   "schema": {
-                    "$ref": "../../swagger/components/Contact.yaml"
+                    "$ref": "#/components/schemas/Contact"
                   }
                 }
               }
@@ -133,7 +137,7 @@
           ],
           "summary": "Отримати контакт за Id",
           "operationId": "getContactById",
-          "description": "Отримати інформацію про конкретного контакта за його унікальним ідентифікатором.",
+          "description": "Отримати інформацію про конкретного контакта за його унікальним ідентифікатором",
           "security": [
             {
               "bearerAuth": []
@@ -144,7 +148,6 @@
               "name": "contactId",
               "in": "path",
               "required": true,
-              "description": "Унікальний ідентифікатор контакту",
               "schema": {
                 "type": "string"
               }
@@ -156,7 +159,7 @@
               "content": {
                 "application/json": {
                   "schema": {
-                    "$ref": "../../../swagger/components/Contact.yaml"
+                    "$ref": "#/components/schemas/Contact"
                   }
                 }
               }
@@ -195,7 +198,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../swagger/components/UpdateContact.yaml"
+                  "$ref": "#/components/schemas/UpdateContact"
                 }
               }
             }
@@ -206,7 +209,7 @@
               "content": {
                 "application/json": {
                   "schema": {
-                    "$ref": "../../../swagger/components/Contact.yaml"
+                    "$ref": "#/components/schemas/Contact"
                   }
                 }
               }
@@ -247,6 +250,20 @@
             "404": {
               "description": "Контакт не знайдено"
             }
+          }
+        }
+      }
+    },
+    "/auth/google": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Увійти через Google",
+        "description": "Ініціалізує логін через Google OAuth 2.0",
+        "responses": {
+          "302": {
+            "description": "Редірект на Google OAuth"
           }
         }
       }
