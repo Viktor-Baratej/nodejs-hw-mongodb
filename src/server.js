@@ -4,7 +4,7 @@ import pino from 'pino';
 import pinoHttp from 'pino-http';
 import pinoPretty from 'pino-pretty';
 import passport from 'passport';
-import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import contactsRouter from './routers/contacts.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
 import errorHandler from './middlewares/errorHandler.js';
@@ -15,6 +15,7 @@ import swaggerUi from 'swagger-ui-express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import session from 'express-session';
 import './auth/googleStrategy.js';
 import googleAuthRouter from './routers/authGoogle.js';
 
@@ -34,9 +35,12 @@ function setupServer() {
 
   // Налаштовуємо CORS для дозволу запитів з наших доменів
   app.use(cors({
-    origin: ['https://localhost:3001', 'https://nodejs-hw-mongodb-7-gti2.onrender.com'],
+    origin: [
+      'https://localhost:3001',
+      'https://nodejs-hw-mongodb-7-gti2.onrender.com'
+    ],
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-    credentials: true // Для підтримки cookies
+    credentials: true // Дозволяє передачу cookies
   }));
 
   // Налаштування Google OAuth 2.0
@@ -49,6 +53,17 @@ function setupServer() {
     return done(null, profile);
   }));
 
+  // Сесія для Passport
+  passport.serializeUser((user, done) => {
+    done(null, user.id);  // Зберігаємо ID користувача в сесії
+  });
+
+  passport.deserializeUser(async (id, done) => {
+    // Завантажуємо користувача за ID з бази даних
+    const user = await User.findById(id);
+    done(null, user);  // Повертаємо користувача з бази
+  });
+
   const logger = pinoHttp({ logger: pino(pinoPretty()) });
 
   // Ініціалізація middleware
@@ -56,6 +71,13 @@ function setupServer() {
   app.use(logger);
   app.use(express.json({ spaces: 2 }));
   app.use(cookieParser());
+
+  // Для роботи з сесіями
+  app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true
+  }));
 
   // Роут для Google OAuth
   app.get('/auth/google', passport.authenticate('google', {
