@@ -34,10 +34,12 @@ function setupServer() {
 
   // Налаштовуємо CORS для дозволу запитів з наших доменів
   app.use(cors({
-    origin: ['https://localhost:3001', 'https://nodejs-hw-mongodb-7-gti2.onrender.com'],
+    origin:
+      'https://nodejs-hw-mongodb-7-gti2.onrender.com',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-    credentials: true // Для підтримки cookies
+    credentials: true // Дозволяє передачу cookies
   }));
+
 
   // Налаштування Google OAuth 2.0
   passport.use(new GoogleStrategy({
