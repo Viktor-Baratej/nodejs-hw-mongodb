@@ -1,5 +1,5 @@
 import express from 'express';
-import cors from 'cors'; // Імпортуємо cors
+import cors from 'cors';
 import pino from 'pino';
 import pinoHttp from 'pino-http';
 import pinoPretty from 'pino-pretty';
@@ -15,7 +15,6 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import './auth/googleStrategy.js';
 import googleAuthRouter from './routers/authGoogle.js';
-
 // Ініціалізуємо змінні оточення
 dotenv.config();
 
@@ -26,6 +25,7 @@ const __dirname = path.dirname(__filename);
 const swaggerDocument = JSON.parse(
   fs.readFileSync(new URL('../docs/swagger.json', import.meta.url))
 );
+
 
 function setupServer() {
   const app = express();
