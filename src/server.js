@@ -3,6 +3,8 @@ import cors from 'cors';
 import pino from 'pino';
 import pinoHttp from 'pino-http';
 import pinoPretty from 'pino-pretty';
+import passport from 'passport';
+import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 import contactsRouter from './routers/contacts.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
 import errorHandler from './middlewares/errorHandler.js';
@@ -15,7 +17,8 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import './auth/googleStrategy.js';
 import googleAuthRouter from './routers/authGoogle.js';
-// Ініціалізуємо змінні оточення
+
+// Ініціалізація змінних оточення
 dotenv.config();
 
 // Фікс для __dirname у ESM
@@ -26,24 +29,45 @@ const swaggerDocument = JSON.parse(
   fs.readFileSync(new URL('../docs/swagger.json', import.meta.url))
 );
 
-
 function setupServer() {
   const app = express();
 
-  // Налаштовуємо CORS
+  // Налаштовуємо CORS для дозволу запитів з наших доменів
   app.use(cors({
-    origin: 'https://nodejs-hw-mongodb-7-gti2.onrender.com',
+    origin: ['https://localhost:3001', 'https://nodejs-hw-mongodb-7-gti2.onrender.com'],
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     credentials: true // Для підтримки cookies
   }));
 
+  // Налаштування Google OAuth 2.0
+  passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID, // Ваш clientID
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET, // Ваш clientSecret
+    callbackURL: 'https://nodejs-hw-mongodb-7-gti2.onrender.com/auth/google/callback', // URL для Google callback
+  }, function(token, tokenSecret, profile, done) {
+    // Обробка отриманого профілю користувача
+    return done(null, profile);
+  }));
+
   const logger = pinoHttp({ logger: pino(pinoPretty()) });
+
+  // Ініціалізація middleware
   app.use('/auth', googleAuthRouter);
   app.use(logger);
   app.use(express.json({ spaces: 2 }));
   app.use(cookieParser());
 
-  // Роути
+  // Роут для Google OAuth
+  app.get('/auth/google', passport.authenticate('google', {
+    scope: ['profile', 'email']
+  }));
+
+  app.get('/auth/google/callback', passport.authenticate('google', {
+    failureRedirect: '/login', // Якщо не вдалося пройти авторизацію
+    successRedirect: '/' // Якщо успішно, редирект на головну
+  }));
+
+  // Роут для решти API
   app.use('/auth', Router);
   app.use('/api/auth', Router);
   app.use('/contacts', contactsRouter);
@@ -51,14 +75,14 @@ function setupServer() {
   // Swagger документація
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-  // Обробники помилок
+  // Обробка помилок
   app.use(notFoundHandler);
   app.use(errorHandler);
 
   const PORT = process.env.PORT || 3001;
   app.listen(PORT, () => {
-    console.log(`✅ Server is running on port ${PORT}`);
-    console.log(`📚 Swagger Docs: http://localhost:${PORT}/api-docs`);
+    console.log(`✅ Сервер працює на порту ${PORT}`);
+    console.log(`📚 Документація Swagger: http://localhost:${PORT}/api-docs`);
   });
 }
 
