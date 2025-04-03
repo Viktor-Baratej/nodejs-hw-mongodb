@@ -35,10 +35,7 @@ function setupServer() {
 
   // Налаштовуємо CORS для дозволу запитів з наших доменів
   app.use(cors({
-    origin: [
-      'https://localhost:3001',
-      'https://nodejs-hw-mongodb-7-gti2.onrender.com'
-    ],
+    origin: 'https://nodejs-hw-mongodb-7-gti2.onrender.com',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     credentials: true // Дозволяє передачу cookies
   }));
@@ -60,7 +57,7 @@ function setupServer() {
 
   passport.deserializeUser(async (id, done) => {
     // Завантажуємо користувача за ID з бази даних
-    const user = await User.findById(id);
+    const user = await user.findById(id);
     done(null, user);  // Повертаємо користувача з бази
   });
 
