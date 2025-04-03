@@ -3,7 +3,7 @@
   "info": {
     "version": "1.0.0",
     "title": "Contact Book API",
-    "description": "Це API для керування контактами користувача. Ви можете створювати, оновлювати, видаляти та переглядати контакти.\n",
+    "description": "Це API для керування контактами користувача. Ви можете створювати, оновлювати, видаляти та переглядати контакти.",
     "license": {
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
@@ -11,10 +11,10 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3001"
+      "url": "https://nodejs-hw-mongodb-7-gti2.onrender.com"
     },
     {
-      "url": "https://nodejs-hw-mongodb-7-gti2.onrender.com"
+      "url": "http://localhost:3001"
     }
   ],
   "tags": [
@@ -30,57 +30,55 @@
   "paths": {
     "/contacts": {
       "get": {
-        "get": {
-          "tags": [
-            "Contacts"
-          ],
-          "summary": "Отримати всі контакти користувача",
-          "operationId": "getAllContacts",
-          "description": "Отримати список всіх контактів, з optional query параметрами фільтрації",
-          "security": [
-            {
-              "bearerAuth": []
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Отримати всі контакти користувача",
+        "operationId": "getAllContacts",
+        "description": "Отримати список всіх контактів, з optional query параметрами фільтрації",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 1
             }
-          ],
-          "parameters": [
-            {
-              "name": "page",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "type": "integer",
-                "example": 1
-              }
-            },
-            {
-              "name": "limit",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "type": "integer",
-                "example": 20
-              }
-            },
-            {
-              "name": "favorite",
-              "in": "query",
-              "required": false,
-              "schema": {
-                "type": "boolean",
-                "example": true
-              }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 20
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "Успішно отримано список контактів",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/Contact"
-                    }
+          },
+          {
+            "name": "favorite",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успішно отримано список контактів",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Contact"
                   }
                 }
               }
@@ -89,170 +87,162 @@
         }
       },
       "post": {
-        "post": {
-          "tags": [
-            "Contacts"
-          ],
-          "summary": "Створити новий контакт",
-          "operationId": "createContact",
-          "description": "Додає новий контакт до бази даних",
-          "security": [
-            {
-              "bearerAuth": []
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Створити новий контакт",
+        "operationId": "createContact",
+        "description": "Додає новий контакт до бази даних",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewContact"
+              }
             }
-          ],
-          "requestBody": {
-            "required": true,
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Контакт створено",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/NewContact"
+                  "$ref": "#/components/schemas/Contact"
                 }
               }
             }
           },
-          "responses": {
-            "201": {
-              "description": "Контакт створено",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Contact"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Некоректні дані"
-            }
+          "400": {
+            "description": "Некоректні дані"
           }
         }
       }
     },
     "/contacts/{contactId}": {
       "get": {
-        "get": {
-          "tags": [
-            "Contacts"
-          ],
-          "summary": "Отримати контакт за Id",
-          "operationId": "getContactById",
-          "description": "Отримати інформацію про конкретного контакта за його унікальним ідентифікатором",
-          "security": [
-            {
-              "bearerAuth": []
-            }
-          ],
-          "parameters": [
-            {
-              "name": "contactId",
-              "in": "path",
-              "required": true,
-              "description": "Унікальний ідентифікатор контакту",
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Контакт знайдено",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Contact"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Контакт не знайдено"
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Отримати контакт за Id",
+        "operationId": "getContactById",
+        "description": "Отримати інформацію про конкретного контакта за його унікальним ідентифікатором",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "required": true,
+            "description": "Унікальний ідентифікатор контакту",
+            "schema": {
+              "type": "string"
             }
           }
-        }
-      },
-      "patch": {
-        "patch": {
-          "tags": [
-            "Contacts"
-          ],
-          "summary": "Оновити контакт за Id",
-          "operationId": "updateContactById",
-          "description": "Оновлює дані певного контакта за його ID",
-          "security": [
-            {
-              "bearerAuth": []
-            }
-          ],
-          "parameters": [
-            {
-              "name": "contactId",
-              "in": "path",
-              "required": true,
-              "description": "Унікальний ідентифікатор контакту",
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "requestBody": {
-            "required": true,
+        ],
+        "responses": {
+          "200": {
+            "description": "Контакт знайдено",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateContact"
+                  "$ref": "#/components/schemas/Contact"
                 }
               }
             }
           },
-          "responses": {
-            "200": {
-              "description": "Контакт оновлено",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Contact"
-                  }
+          "404": {
+            "description": "Контакт не знайдено"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Оновити контакт за Id",
+        "operationId": "updateContactById",
+        "description": "Оновлює дані певного контакта за його ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "required": true,
+            "description": "Унікальний ідентифікатор контакту",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateContact"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Контакт оновлено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contact"
                 }
               }
-            },
-            "404": {
-              "description": "Контакт не знайдено"
             }
+          },
+          "404": {
+            "description": "Контакт не знайдено"
           }
         }
       },
       "delete": {
-        "delete": {
-          "tags": [
-            "Contacts"
-          ],
-          "summary": "Видалити контакт за Id",
-          "operationId": "deleteContactById",
-          "description": "Видаляє контакт із бази даних",
-          "security": [
-            {
-              "bearerAuth": []
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Видалити контакт за Id",
+        "operationId": "deleteContactById",
+        "description": "Видаляє контакт із бази даних",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "required": true,
+            "description": "Унікальний ідентифікатор контакту",
+            "schema": {
+              "type": "string"
             }
-          ],
-          "parameters": [
-            {
-              "name": "contactId",
-              "in": "path",
-              "required": true,
-              "description": "Унікальний ідентифікатор контакту",
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "204": {
-              "description": "Контакт успішно видалено (без тіла відповіді)"
-            },
-            "404": {
-              "description": "Контакт не знайдено"
-            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Контакт успішно видалено (без тіла відповіді)"
+          },
+          "404": {
+            "description": "Контакт не знайдено"
           }
         }
       }

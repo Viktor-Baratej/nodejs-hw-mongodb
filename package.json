@@ -1,7 +1,7 @@
 {
   "name": "nodejs-hw-mongodb",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "scr/index.js",
   "type": "module",
   "scripts": {
     "dev": "nodemon src/index.js",
