@@ -41,8 +41,8 @@ function setupServer() {
 
   // Налаштування Google OAuth 2.0
   passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID, // Ваш clientID
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET, // Ваш clientSecret
+    clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
     callbackURL: 'https://nodejs-hw-mongodb-7-gti2.onrender.com/auth/google/callback', // URL для Google callback
   }, function(token, tokenSecret, profile, done) {
     // Обробка отриманого профілю користувача
