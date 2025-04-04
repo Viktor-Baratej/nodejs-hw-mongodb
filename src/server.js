@@ -1,5 +1,4 @@
 import express from 'express';
-import cors from 'cors';
 import pino from 'pino';
 import pinoHttp from 'pino-http';
 import pinoPretty from 'pino-pretty';
@@ -19,7 +18,6 @@ import session from 'express-session';
 import './auth/googleStrategy.js';
 import googleAuthRouter from './routers/authGoogle.js';
 
-// Ініціалізація змінних оточення
 dotenv.config();
 
 // Фікс для __dirname у ESM
@@ -33,22 +31,14 @@ const swaggerDocument = JSON.parse(
 function setupServer() {
   const app = express();
 
-  // Налаштовуємо CORS для дозволу запитів з наших доменів
-  app.use(cors({
-    origin: [
-      'https://localhost:3001',
-      'https://nodejs-hw-mongodb-7-gti2.onrender.com'
-    ],
-    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-    credentials: true // Дозволяє передачу cookies
-  }));
-
-  // Налаштування Google OAuth 2.0
+  // Налаштовуємо Google OAuth 2.0
   passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
     clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
-    callbackURL: 'https://nodejs-hw-mongodb-7-gti2.onrender.com/auth/google/callback', // URL для Google callback
-  }, function(token, tokenSecret, profile, done) {
+    callbackURL: 'https://nodejs-hw-mongodb-7-gti2.onrender.com/auth/google/callback',
+  },
+
+  function(token, tokenSecret, profile, done) {
     // Обробка отриманого профілю користувача
     return done(null, profile);
   }));
@@ -60,7 +50,7 @@ function setupServer() {
 
   passport.deserializeUser(async (id, done) => {
     // Завантажуємо користувача за ID з бази даних
-    const user = await User.findById(id);
+    const user = await user.findById(id);
     done(null, user);  // Повертаємо користувача з бази
   });
 
