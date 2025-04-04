@@ -18,7 +18,6 @@ import session from 'express-session';
 import './auth/googleStrategy.js';
 import googleAuthRouter from './routers/authGoogle.js';
 
-
 dotenv.config();
 
 // Фікс для __dirname у ESM
@@ -32,7 +31,7 @@ const swaggerDocument = JSON.parse(
 function setupServer() {
   const app = express();
 
-  // Налаштування Google OAuth 2.0
+  // Налаштовуємо Google OAuth 2.0
   passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
     clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
@@ -51,7 +50,7 @@ function setupServer() {
 
   passport.deserializeUser(async (id, done) => {
     // Завантажуємо користувача за ID з бази даних
-    const user = await user.findById(id);  // Замість user використовуйте правильну модель
+    const user = await user.findById(id);
     done(null, user);  // Повертаємо користувача з бази
   });
 
