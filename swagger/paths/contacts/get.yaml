@@ -78,9 +78,9 @@ responses:
             data:
               type: array
               items:
-                $ref: '../../../components/schemas/Contact.yaml'
+                $ref: '../../components/schemas/Contact.yaml'
   '401':
-    $ref: '../../../components/responses/401.yaml'
+    $ref: '../../components/responses/401.yaml'
   '500':
     description: Серверна помилка
     content:

@@ -50,7 +50,7 @@ responses:
     content:
       application/json:
         schema:
-          $ref: '../../../components/responses/400.yaml'
+          $ref: '../../../components/responses/404.yaml'
   '404':
     description: Контакт не знайдено
     content:
