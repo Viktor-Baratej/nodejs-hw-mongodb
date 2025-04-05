@@ -7,52 +7,42 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-
 tags:
   - name: Contacts
     description: Операції для роботи з контактами
   - name: Auth
     description: Авторизація та логін користувачів
-
 servers:
   - url: http://localhost:3001
   - url: https://nodejs-hw-mongodb-7-gti2.onrender.com
-
 paths:
   /contacts:
     get:
-      $ref: '../swagger/paths/get.yaml'
+      $ref: './paths/contacts/get.yaml'
     post:
-      $ref: '../swagger/paths/post.yaml'
-
+      $ref: './paths/contacts/post.yaml'
   /contacts/{contactId}:
     get:
-      $ref: '../swagger/paths/contactsId/get.yaml'
+      $ref: './paths/contacts/{id}/get.yaml'
     patch:
-      $ref: '../swagger/paths/contactsId/patch.yaml'
+      $ref: './paths/contacts/{id}/patch.yaml'
     delete:
-      $ref: '../swagger/paths/contactsId/delete.yaml'
-
+      $ref: './paths/contacts/{id}/delete.yaml'
   /auth/google:
     get:
-      tags:
-        - Auth
-      summary: Увійти через Google
-      description: Ініціалізує логін через Google OAuth 2.0
-      responses:
-        '302':
-          description: Редірект на Google OAuth
-
+      $ref: './paths/auth/google.yaml'
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
-
+  responses:
+    '401':
+      $ref: './components/responses/401.yaml'
   schemas:
     Contact:
-      $ref: '../swagger/components/Contact.yaml'
+      $ref: './components/schemas/Contact.yaml'
     NewContact:
-      $ref: '../swagger/components/NewContact.yaml'
+      $ref: './components/schemas/NewContact.yaml'
     UpdateContact:
-      $ref: '../swagger/components/UpdateContact.yaml'
+      $ref: './components/schemas/UpdateContact.yaml'
