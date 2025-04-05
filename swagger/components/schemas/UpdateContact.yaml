@@ -6,12 +6,19 @@ properties:
   email:
     type: string
     example: 'artemb@example.com'
-  phone:
+  phoneNumber:
     type: string
     example: '+380991234567'
-  favorite:
+  isFavourite:
     type: boolean
     example: false
+  contactType:
+    type: string
+    enum:
+      - 'work'
+      - 'home'
+      - 'personal'
+    example: 'personal'
   photo:
     type: string
     example: 'https://example.com/photo.jpg'

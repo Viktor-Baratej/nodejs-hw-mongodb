@@ -35,6 +35,9 @@ requestBody:
           photo:
             type: string
             example: 'https://example.com/photo-updated.jpg'
+        required:
+          - name
+          - phone
 responses:
   '200':
     description: Контакт успішно оновлено
@@ -54,6 +57,5 @@ responses:
       application/json:
         schema:
           $ref: '../../../components/responses/404.yaml'
-
   '401':
     $ref: '../../../components/responses/401.yaml'
