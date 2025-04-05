@@ -26,7 +26,7 @@ parameters:
     required: false
     schema:
       type: string
-      example: name
+      example: 'name'
     description: 'Параметр для сортування за полем. За замовчуванням - _id.'
   - name: sortOrder
     in: query
@@ -41,7 +41,7 @@ parameters:
     required: false
     schema:
       type: string
-      example: favorite=true
+      example: 'favorite=true'
     description: 'Фільтрація за певним параметром. Наприклад, favorite=true для фільтрації за улюбленими контактами.'
   - name: minAge
     in: query

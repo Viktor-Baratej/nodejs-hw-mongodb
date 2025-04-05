@@ -2,8 +2,8 @@ type: object
 required:
   - _id
   - name
-  - email
-  - phone
+  - phoneNumber
+  - contactType
 properties:
   _id:
     description: 'Унікальний ID контакту'
@@ -17,32 +17,23 @@ properties:
     description: 'Адреса електронної пошти контакту'
     type: string
     example: 'johndoe@example.com'
-  phone:
+  phoneNumber:
     description: 'Номер телефону контакту'
     type: string
     example: '+380991234567'
-  favorite:
+  isFavourite:
     description: 'Чи позначено контакт як улюблений'
     type: boolean
     example: false
+  contactType:
+    description: 'Тип контакту (work, home, personal)'
+    type: string
+    enum:
+      - 'work'
+      - 'home'
+      - 'personal'
+    example: 'personal'
   photo:
     description: 'URL фотографії контакту'
     type: string
     example: 'https://example.com/photo.jpg'
-
-  # age:
-  #   description: "Вік контакту"
-  #   type: number
-  #   example: 30
-  # gender:
-  #   description: "Стать контакту"
-  #   type: string
-  #   enum: ['male', 'female', 'other']
-  # avgMark:
-  #   description: "Середня оцінка контакту"
-  #   type: number
-  #   example: 9.7
-  # parentId:
-  #   description: "ID батьків контакту"
-  #   type: string
-  #   example: '65e4decdd286b30065d54af9'

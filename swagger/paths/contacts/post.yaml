@@ -14,7 +14,7 @@ requestBody:
         required:
           - name
           - email
-          - phone
+          - phoneNumber
         properties:
           name:
             description: "Ім'я контакту"
@@ -24,14 +24,22 @@ requestBody:
             description: 'Електронна пошта контакту'
             type: string
             example: 'johndoe@example.com'
-          phone:
+          phoneNumber:
             description: 'Номер телефону контакту'
             type: string
             example: '+380991234567'
-          favorite:
+          isFavourite:
             description: 'Позначка, чи є контакт у списку обраних'
             type: boolean
             example: true
+          contactType:
+            description: 'Тип контакту (work, home, personal)'
+            type: string
+            enum:
+              - 'work'
+              - 'home'
+              - 'personal'
+            example: 'personal'
           photo:
             description: 'Фото контакту'
             type: string

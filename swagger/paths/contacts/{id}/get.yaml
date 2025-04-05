@@ -35,6 +35,10 @@ responses:
               type: object
               $ref: '../../../components/schemas/Contact.yaml'
   '404':
-    $ref: '../../../components/responses/404.yaml'
+    description: Контакт не знайдено
+    content:
+      application/json:
+        schema:
+          $ref: '../../../components/responses/404.yaml'
   '401':
     $ref: '../../../components/responses/401.yaml'
