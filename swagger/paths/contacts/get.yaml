@@ -1,0 +1,57 @@
+tags:
+  - Contacts
+summary: Отримати всі контакти користувача
+operationId: getAllContacts
+description: |
+  Отримати список всіх контактів, з optional query параметрами фільтрації, пагінації та сортування.
+security:
+  - bearerAuth: []
+parameters:
+  - name: page
+    in: query
+    required: false
+    schema:
+      type: integer
+      example: 1
+  - name: limit
+    in: query
+    required: false
+    schema:
+      type: integer
+      example: 20
+  - name: sort
+    in: query
+    required: false
+    schema:
+      type: string
+      example: name
+  - name: filter
+    in: query
+    required: false
+    schema:
+      type: string
+      example: favorite=true
+responses:
+  '200':
+    description: Успішно отримано список контактів
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '../../../components/schemas/Contact.yaml'
+  '401':
+    $ref: '../../../components/responses/401.yaml'
+  '500':
+    description: Серверна помилка
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 500
+            message:
+              type: string
+              example: 'Internal Server Error'

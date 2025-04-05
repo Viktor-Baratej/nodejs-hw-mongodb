@@ -1,0 +1,22 @@
+tags:
+  - Contacts
+summary: Видалити контакт за ID
+operationId: deleteContactById
+description: Видаляє контакт із бази даних за його ID
+security:
+  - bearerAuth: []
+parameters:
+  - name: contactId
+    in: path
+    required: true
+    description: Унікальний ідентифікатор контакту
+    schema:
+      type: string
+      example: '12345'
+responses:
+  '204':
+    description: Контакт успішно видалено (без тіла відповіді)
+  '404':
+    $ref: '../../../components/responses/404.yaml'
+  '401':
+    $ref: '../../../components/responses/401.yaml'

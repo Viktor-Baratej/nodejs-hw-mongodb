@@ -1,0 +1,31 @@
+type: object
+required:
+  - _id
+  - name
+  - email
+  - phone
+properties:
+  _id:
+    description: "Contact's unique ID"
+    type: string
+    example: '12345'
+  name:
+    description: "Contact's full name"
+    type: string
+    example: 'John Doe'
+  email:
+    description: "Contact's email address"
+    type: string
+    example: 'johndoe@example.com'
+  phone:
+    description: "Contact's phone number"
+    type: string
+    example: '+380991234567'
+  favorite:
+    description: 'Whether the contact is marked as favorite'
+    type: boolean
+    example: false
+  photo:
+    description: "Contact's photo URL"
+    type: string
+    example: 'https://example.com/photo.jpg'
