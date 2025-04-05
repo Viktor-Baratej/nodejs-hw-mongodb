@@ -13,33 +13,72 @@ parameters:
     schema:
       type: integer
       example: 1
+    description: 'Номер сторінки для пагінації. За замовчуванням 1.'
   - name: limit
     in: query
     required: false
     schema:
       type: integer
       example: 20
-  - name: sort
+    description: 'Кількість елементів на сторінці. За замовчуванням 20.'
+  - name: sortBy
     in: query
     required: false
     schema:
       type: string
       example: name
+    description: 'Параметр для сортування за полем. За замовчуванням - _id.'
+  - name: sortOrder
+    in: query
+    required: false
+    schema:
+      type: string
+      enum: ['asc', 'desc']
+      example: 'asc'
+    description: 'Параметр для сортування у порядку зростання або спадання.'
   - name: filter
     in: query
     required: false
     schema:
       type: string
       example: favorite=true
+    description: 'Фільтрація за певним параметром. Наприклад, favorite=true для фільтрації за улюбленими контактами.'
+  - name: minAge
+    in: query
+    required: false
+    schema:
+      type: integer
+      example: 18
+    description: 'Мінімальний вік контактів для фільтрації.'
+  - name: maxAge
+    in: query
+    required: false
+    schema:
+      type: integer
+      example: 50
+    description: 'Максимальний вік контактів для фільтрації.'
 responses:
   '200':
     description: Успішно отримано список контактів
     content:
       application/json:
         schema:
-          type: array
-          items:
-            $ref: '../../../components/schemas/Contact.yaml'
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: 'Successfully fetched contacts'
+            data:
+              type: array
+              items:
+                $ref: '../../../components/schemas/Contact.yaml'
   '401':
     $ref: '../../../components/responses/401.yaml'
   '500':

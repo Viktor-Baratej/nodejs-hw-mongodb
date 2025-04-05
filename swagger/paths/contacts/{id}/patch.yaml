@@ -1,8 +1,8 @@
 tags:
   - Contacts
-summary: Оновити контакт за ID
-operationId: updateContactById
-description: Оновлює дані контакту за його ID
+summary: Оновити контакт за Id
+operationId: updateContact
+description: Оновлює контакт за його унікальним ідентифікатором
 security:
   - bearerAuth: []
 parameters:
@@ -12,21 +12,48 @@ parameters:
     description: Унікальний ідентифікатор контакту
     schema:
       type: string
-      example: '12345'
+      example: '60d6b3e32f9b8c001c2bb8d7'
 requestBody:
   required: true
   content:
     application/json:
       schema:
-        $ref: '../../../components/schemas/UpdateContact.yaml'
+        type: object
+        properties:
+          name:
+            type: string
+            example: 'Updated Name'
+          email:
+            type: string
+            example: 'updated@example.com'
+          phone:
+            type: string
+            example: '+380991234567'
+          favorite:
+            type: boolean
+            example: true
+          photo:
+            type: string
+            example: 'https://example.com/photo-updated.jpg'
 responses:
   '200':
-    description: Контакт оновлено
+    description: Контакт успішно оновлено
     content:
       application/json:
         schema:
           $ref: '../../../components/schemas/Contact.yaml'
+  '400':
+    description: Некоректні дані
+    content:
+      application/json:
+        schema:
+          $ref: '../../../components/responses/400.yaml'
   '404':
-    $ref: '../../../components/responses/404.yaml'
+    description: Контакт не знайдено
+    content:
+      application/json:
+        schema:
+          $ref: '../../../components/responses/404.yaml'
+
   '401':
     $ref: '../../../components/responses/401.yaml'

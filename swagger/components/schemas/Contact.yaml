@@ -6,26 +6,43 @@ required:
   - phone
 properties:
   _id:
-    description: "Contact's unique ID"
+    description: 'Унікальний ID контакту'
     type: string
     example: '12345'
   name:
-    description: "Contact's full name"
+    description: "Повне ім'я контакту"
     type: string
     example: 'John Doe'
   email:
-    description: "Contact's email address"
+    description: 'Адреса електронної пошти контакту'
     type: string
     example: 'johndoe@example.com'
   phone:
-    description: "Contact's phone number"
+    description: 'Номер телефону контакту'
     type: string
     example: '+380991234567'
   favorite:
-    description: 'Whether the contact is marked as favorite'
+    description: 'Чи позначено контакт як улюблений'
     type: boolean
     example: false
   photo:
-    description: "Contact's photo URL"
+    description: 'URL фотографії контакту'
     type: string
     example: 'https://example.com/photo.jpg'
+
+  # age:
+  #   description: "Вік контакту"
+  #   type: number
+  #   example: 30
+  # gender:
+  #   description: "Стать контакту"
+  #   type: string
+  #   enum: ['male', 'female', 'other']
+  # avgMark:
+  #   description: "Середня оцінка контакту"
+  #   type: number
+  #   example: 9.7
+  # parentId:
+  #   description: "ID батьків контакту"
+  #   type: string
+  #   example: '65e4decdd286b30065d54af9'
