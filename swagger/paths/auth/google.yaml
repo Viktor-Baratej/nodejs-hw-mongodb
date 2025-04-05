@@ -6,11 +6,3 @@ description: Ініціалізує логін через Google OAuth 2.0
 responses:
   '302':
     description: Редірект на Google OAuth
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            message:
-              type: string
-              example: 'Redirecting to Google login'

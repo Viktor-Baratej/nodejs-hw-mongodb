@@ -8,25 +8,60 @@ security:
 requestBody:
   required: true
   content:
-    application/json:
+    multipart/form-data:
       schema:
-        $ref: '../../../components/schemas/NewContact.yaml'
+        type: object
+        required:
+          - name
+          - email
+          - phone
+        properties:
+          name:
+            description: "Ім'я контакту"
+            type: string
+            example: 'John Doe'
+          email:
+            description: 'Електронна пошта контакту'
+            type: string
+            example: 'johndoe@example.com'
+          phone:
+            description: 'Номер телефону контакту'
+            type: string
+            example: '+380991234567'
+          favorite:
+            description: 'Позначка, чи є контакт у списку обраних'
+            type: boolean
+            example: true
+          photo:
+            description: 'Фото контакту'
+            type: string
+            format: binary
 responses:
   '201':
     description: Контакт створено
     content:
       application/json:
         schema:
-          $ref: '../../../components/schemas/Contact.yaml'
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: 'Контакт успішно створено'
+            data:
+              type: object
+              $ref: '../../../components/schemas/Contact.yaml'
   '400':
     description: Некоректні дані
     content:
       application/json:
         schema:
-          type: object
-          properties:
-            message:
-              type: string
-              example: 'Invalid data provided'
+          $ref: '../../../components/responses/400.yaml'
   '401':
     $ref: '../../../components/responses/401.yaml'
