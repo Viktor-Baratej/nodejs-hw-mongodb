@@ -18,19 +18,19 @@ servers:
 paths:
   /contacts:
     get:
-      $ref: './paths/contacts/get.yaml'
+      $ref: '../swagger/paths/contacts/get.yaml'
     post:
-      $ref: './paths/contacts/post.yaml'
+      $ref: '../swagger/paths/contacts/post.yaml'
   /contacts/{contactId}:
     get:
-      $ref: './paths/contacts/{id}/get.yaml'
+      $ref: '../swagger/paths/contacts/{id}/get.yaml'
     patch:
-      $ref: './paths/contacts/{id}/patch.yaml'
+      $ref: '../swagger/paths/contacts/{id}/patch.yaml'
     delete:
-      $ref: './paths/contacts/{id}/delete.yaml'
+      $ref: '../swagger/paths/contacts/{id}/delete.yaml'
   /auth/google:
     get:
-      $ref: './paths/auth/google.yaml'
+      $ref: '../swagger/paths/auth/google.yaml'
 components:
   securitySchemes:
     bearerAuth:
@@ -38,11 +38,11 @@ components:
       scheme: bearer
   responses:
     '401':
-      $ref: './components/responses/401.yaml'
+      $ref: ../swagger/components/responses/401.yaml
   schemas:
     Contact:
-      $ref: './components/schemas/Contact.yaml'
+      $ref: ../swagger/components/schemas/Contact.yaml
     NewContact:
-      $ref: './components/schemas/NewContact.yaml'
+      $ref: ../swagger/components/schemas/NewContact.yaml
     UpdateContact:
-      $ref: './components/schemas/UpdateContact.yaml'
+      $ref: ../swagger/components/schemas/UpdateContact.yaml
