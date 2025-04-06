@@ -10,8 +10,8 @@ info:
 tags:
   - name: Contacts
     description: Операції для роботи з контактами
-  - name: Auth
-    description: Авторизація та логін користувачів
+  # - name: Auth
+  #   description: Авторизація та логін користувачів
 servers:
   - url: http://localhost:3001
   - url: https://nodejs-hw-mongodb-7-gti2.onrender.com
