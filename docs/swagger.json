@@ -53,14 +53,14 @@
             "description": "Номер сторінки для пагінації. За замовчуванням 1."
           },
           {
-            "name": "limit",
+            "name": "perPage",
             "in": "query",
             "required": false,
             "schema": {
               "type": "integer",
-              "example": 20
+              "example": 10
             },
-            "description": "Кількість елементів на сторінці. За замовчуванням 20."
+            "description": "Кількість елементів на сторінці. За замовчуванням 10."
           },
           {
             "name": "sortBy",
@@ -70,7 +70,7 @@
               "type": "string",
               "example": "name"
             },
-            "description": "Параметр для сортування за полем. За замовчуванням - _id."
+            "description": "Параметр для сортування за полем. За замовчуванням - name."
           },
           {
             "name": "sortOrder",
@@ -97,24 +97,24 @@
             "description": "Фільтрація за певним параметром. Наприклад, favorite=true для фільтрації за улюбленими контактами."
           },
           {
-            "name": "minAge",
+            "name": "type",
             "in": "query",
             "required": false,
             "schema": {
-              "type": "integer",
-              "example": 18
+              "type": "string",
+              "example": "work"
             },
-            "description": "Мінімальний вік контактів для фільтрації."
+            "description": "Фільтрація за типом контакту. Можливі значення: work, home, personal."
           },
           {
-            "name": "maxAge",
+            "name": "isFavourite",
             "in": "query",
             "required": false,
             "schema": {
-              "type": "integer",
-              "example": 50
+              "type": "boolean",
+              "example": true
             },
-            "description": "Максимальний вік контактів для фільтрації."
+            "description": "Фільтрація за ознакою улюбленості контакту."
           }
         ],
         "responses": {
@@ -139,9 +139,47 @@
                       "example": "Successfully fetched contacts"
                     },
                     "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Contact"
+                      "type": "object",
+                      "required": [
+                        "data",
+                        "page",
+                        "perPage",
+                        "totalItems",
+                        "totalPages",
+                        "hasNextPage",
+                        "hasPreviousPage"
+                      ],
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Contact"
+                          }
+                        },
+                        "page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "perPage": {
+                          "type": "integer",
+                          "example": 10
+                        },
+                        "totalItems": {
+                          "type": "integer",
+                          "example": 100
+                        },
+                        "totalPages": {
+                          "type": "integer",
+                          "example": 10
+                        },
+                        "hasNextPage": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "hasPreviousPage": {
+                          "type": "boolean",
+                          "example": false
+                        }
                       }
                     }
                   }
@@ -153,24 +191,7 @@
             "$ref": "#/components/responses/401"
           },
           "500": {
-            "description": "Серверна помилка",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 500
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Internal Server Error"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -194,8 +215,8 @@
                 "type": "object",
                 "required": [
                   "name",
-                  "email",
-                  "phoneNumber"
+                  "phoneNumber",
+                  "email"
                 ],
                 "properties": {
                   "name": {
@@ -273,13 +294,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/404"
+                  "$ref": "#/components/schemas/400"
                 }
               }
             }
           },
           "401": {
             "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -305,7 +329,7 @@
             "description": "Унікальний ідентифікатор контакту",
             "schema": {
               "type": "string",
-              "example": "12345"
+              "example": "60d6b3e32f9b8c001c2bb8d7"
             }
           }
         ],
@@ -328,7 +352,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully found contact with id 12345!"
+                      "example": "Successfully found contact with id 60d6b3e32f9b8c001c2bb8d7!"
                     },
                     "data": {
                       "type": "object",
@@ -351,6 +375,9 @@
                 }
               }
             }
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -381,7 +408,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -403,7 +430,8 @@
                   },
                   "photo": {
                     "type": "string",
-                    "example": "https://example.com/photo-updated.jpg"
+                    "format": "binary",
+                    "description": "Фото контакту для оновлення"
                   }
                 },
                 "required": [
@@ -430,7 +458,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/404"
+                  "$ref": "#/components/schemas/400"
                 }
               }
             }
@@ -447,6 +475,9 @@
                 }
               }
             }
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -490,6 +521,9 @@
                 }
               }
             }
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -504,7 +538,14 @@
         "description": "Ініціалізує логін через Google OAuth 2.0",
         "responses": {
           "302": {
-            "description": "Редірект на Google OAuth"
+            "description": "Редірект на Google OAuth для авторизації",
+            "headers": {
+              "Location": {
+                "description": "URL для редіректу на Google OAuth 2.0",
+                "type": "string",
+                "example": "https://accounts.google.com/o/oauth2/v2/auth?client_id=your-client-id&redirect_uri=your-redirect-uri&response_type=code&scope=openid%20profile%20email"
+              }
+            }
           }
         }
       }
@@ -554,9 +595,50 @@
             }
           }
         }
+      },
+      "500": {
+        "responses": {
+          "500": {
+            "description": "Серверна помилка",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 500
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "schemas": {
+      "400": {
+        "type": "object",
+        "required": [
+          "status",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 400
+          },
+          "message": {
+            "type": "string",
+            "example": "Bad Request. The server could not understand the request due to invalid syntax."
+          }
+        }
+      },
       "404": {
         "description": "Not Found Error",
         "content": {

@@ -13,8 +13,8 @@ requestBody:
         type: object
         required:
           - name
-          - email
           - phoneNumber
+          - email
         properties:
           name:
             description: "Ім'я контакту"
@@ -70,6 +70,8 @@ responses:
     content:
       application/json:
         schema:
-          $ref: '../../components/responses/404.yaml'
+          $ref: '../../components/responses/400.yaml'
   '401':
     $ref: '../../components/responses/401.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'
