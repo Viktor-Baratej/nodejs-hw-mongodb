@@ -25,33 +25,38 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const swaggerDocument = JSON.parse(
-  fs.readFileSync(new URL('../docs/swagger.json', import.meta.url))
+  fs.readFileSync(new URL('../docs/swagger.json', import.meta.url)),
 );
 
 function setupServer() {
   const app = express();
 
   // Налаштовуємо Google OAuth 2.0
-  passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
-    callbackURL: 'https://nodejs-hw-mongodb-7-gti2.onrender.com/auth/google/callback',
-  },
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
+        callbackURL:
+          'https://nodejs-hw-mongodb-7-gti2.onrender.com/auth/google/callback',
+      },
 
-  function(token, tokenSecret, profile, done) {
-    // Обробка отриманого профілю користувача
-    return done(null, profile);
-  }));
+      function (token, tokenSecret, profile, done) {
+        // Обробка отриманого профілю користувача
+        return done(null, profile);
+      },
+    ),
+  );
 
   // Сесія для Passport
   passport.serializeUser((user, done) => {
-    done(null, user.id);  // Зберігаємо ID користувача в сесії
+    done(null, user.id); // Зберігаємо ID користувача в сесії
   });
 
   passport.deserializeUser(async (id, done) => {
     // Завантажуємо користувача за ID з бази даних
     const user = await user.findById(id);
-    done(null, user);  // Повертаємо користувача з бази
+    done(null, user); // Повертаємо користувача з бази
   });
 
   const logger = pinoHttp({ logger: pino(pinoPretty()) });
@@ -63,21 +68,29 @@ function setupServer() {
   app.use(cookieParser());
 
   // Для роботи з сесіями
-  app.use(session({
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: true
-  }));
+  app.use(
+    session({
+      secret: 'your-secret-key',
+      resave: false,
+      saveUninitialized: true,
+    }),
+  );
 
   // Роут для Google OAuth
-  app.get('/auth/google', passport.authenticate('google', {
-    scope: ['profile', 'email']
-  }));
+  app.get(
+    '/auth/google',
+    passport.authenticate('google', {
+      scope: ['profile', 'email'],
+    }),
+  );
 
-  app.get('/auth/google/callback', passport.authenticate('google', {
-    failureRedirect: '/login', // Якщо не вдалося пройти авторизацію
-    successRedirect: '/' // Якщо успішно, редирект на головну
-  }));
+  app.get(
+    '/auth/google/callback',
+    passport.authenticate('google', {
+      failureRedirect: '/login', // Якщо не вдалося пройти авторизацію
+      successRedirect: '/', // Якщо успішно, редирект на головну
+    }),
+  );
 
   // Роут для решти API
   app.use('/auth', Router);

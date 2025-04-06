@@ -21,10 +21,6 @@
     {
       "name": "Contacts",
       "description": "Операції для роботи з контактами"
-    },
-    {
-      "name": "Auth",
-      "description": "Авторизація та логін користувачів"
     }
   ],
   "paths": {
@@ -290,14 +286,7 @@
             }
           },
           "400": {
-            "description": "Некоректні дані",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/400"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           },
           "401": {
             "$ref": "#/components/responses/401"
@@ -367,14 +356,7 @@
             "$ref": "#/components/responses/401"
           },
           "404": {
-            "description": "Контакт не знайдено",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/404"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404"
           },
           "500": {
             "$ref": "#/components/responses/500"
@@ -454,27 +436,13 @@
             }
           },
           "400": {
-            "description": "Некоректні дані",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/400"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           },
           "401": {
             "$ref": "#/components/responses/401"
           },
           "404": {
-            "description": "Контакт не знайдено",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/404"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404"
           },
           "500": {
             "$ref": "#/components/responses/500"
@@ -513,39 +481,10 @@
             "$ref": "#/components/responses/401"
           },
           "404": {
-            "description": "Контакт не знайдено",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/404"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404"
           },
           "500": {
             "$ref": "#/components/responses/500"
-          }
-        }
-      }
-    },
-    "/auth/google": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Увійти через Google",
-        "operationId": "googleAuth",
-        "description": "Ініціалізує логін через Google OAuth 2.0",
-        "responses": {
-          "302": {
-            "description": "Редірект на Google OAuth для авторизації",
-            "headers": {
-              "Location": {
-                "description": "URL для редіректу на Google OAuth 2.0",
-                "type": "string",
-                "example": "https://accounts.google.com/o/oauth2/v2/auth?client_id=your-client-id&redirect_uri=your-redirect-uri&response_type=code&scope=openid%20profile%20email"
-              }
-            }
           }
         }
       }
@@ -558,111 +497,7 @@
         "scheme": "bearer"
       }
     },
-    "responses": {
-      "401": {
-        "description": "Unauthorized error",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "required": [
-                "status",
-                "message",
-                "data"
-              ],
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 401
-                },
-                "message": {
-                  "type": "string",
-                  "example": "UnauthorizedError"
-                },
-                "data": {
-                  "type": "object",
-                  "required": [
-                    "message"
-                  ],
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Access token expired"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "500": {
-        "responses": {
-          "500": {
-            "description": "Серверна помилка",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 500
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Internal Server Error"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "schemas": {
-      "400": {
-        "type": "object",
-        "required": [
-          "status",
-          "message"
-        ],
-        "properties": {
-          "status": {
-            "type": "integer",
-            "example": 400
-          },
-          "message": {
-            "type": "string",
-            "example": "Bad Request. The server could not understand the request due to invalid syntax."
-          }
-        }
-      },
-      "404": {
-        "description": "Not Found Error",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "required": [
-                "status",
-                "message"
-              ],
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 404
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Contact not found"
-                }
-              }
-            }
-          }
-        }
-      },
       "Contact": {
         "type": "object",
         "required": [
@@ -713,77 +548,108 @@
             "example": "https://example.com/photo.jpg"
           }
         }
-      },
-      "NewContact": {
+      }
+    },
+    "responses": {
+      "400": {
         "type": "object",
         "required": [
-          "name",
-          "email",
-          "phoneNumber"
+          "status",
+          "message"
         ],
         "properties": {
-          "name": {
-            "type": "string",
-            "example": "Artem Baratej"
+          "status": {
+            "type": "integer",
+            "example": 400
           },
-          "email": {
+          "message": {
             "type": "string",
-            "example": "artemb@example.com"
-          },
-          "phoneNumber": {
-            "type": "string",
-            "example": "+380991234567"
-          },
-          "isFavourite": {
-            "type": "boolean",
-            "example": false
-          },
-          "contactType": {
-            "type": "string",
-            "enum": [
-              "work",
-              "home",
-              "personal"
-            ],
-            "example": "personal"
-          },
-          "photo": {
-            "type": "string",
-            "example": "https://example.com/photo.jpg"
+            "example": "Bad Request. The server could not understand the request due to invalid syntax."
           }
         }
       },
-      "UpdateContact": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "Artem Baratej"
-          },
-          "email": {
-            "type": "string",
-            "example": "artemb@example.com"
-          },
-          "phoneNumber": {
-            "type": "string",
-            "example": "+380991234567"
-          },
-          "isFavourite": {
-            "type": "boolean",
-            "example": false
-          },
-          "contactType": {
-            "type": "string",
-            "enum": [
-              "work",
-              "home",
-              "personal"
-            ],
-            "example": "personal"
-          },
-          "photo": {
-            "type": "string",
-            "example": "https://example.com/photo.jpg"
+      "401": {
+        "description": "Unauthorized error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "message": {
+                  "type": "string",
+                  "example": "UnauthorizedError"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Access token expired"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Not Found Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Contact not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "responses": {
+          "500": {
+            "description": "Серверна помилка",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 500
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
