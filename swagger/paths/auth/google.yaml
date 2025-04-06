@@ -5,4 +5,9 @@ operationId: googleAuth
 description: Ініціалізує логін через Google OAuth 2.0
 responses:
   '302':
-    description: Редірект на Google OAuth
+    description: Редірект на Google OAuth для авторизації
+    headers:
+      Location:
+        description: URL для редіректу на Google OAuth 2.0
+        type: string
+        example: 'https://accounts.google.com/o/oauth2/v2/auth?client_id=your-client-id&redirect_uri=your-redirect-uri&response_type=code&scope=openid%20profile%20email'

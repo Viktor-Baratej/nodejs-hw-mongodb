@@ -12,7 +12,7 @@ parameters:
     description: Унікальний ідентифікатор контакту
     schema:
       type: string
-      example: '12345'
+      example: '60d6b3e32f9b8c001c2bb8d7' # приклад ID
 responses:
   '200':
     description: Контакт знайдено
@@ -30,7 +30,7 @@ responses:
               example: 200
             message:
               type: string
-              example: Successfully found contact with id 12345!
+              example: 'Successfully found contact with id 60d6b3e32f9b8c001c2bb8d7!'
             data:
               type: object
               $ref: '../../../components/schemas/Contact.yaml'
@@ -42,3 +42,5 @@ responses:
           $ref: '../../../components/responses/404.yaml'
   '401':
     $ref: '../../../components/responses/401.yaml'
+  '500':
+    $ref: '../../../components/responses/500.yaml'

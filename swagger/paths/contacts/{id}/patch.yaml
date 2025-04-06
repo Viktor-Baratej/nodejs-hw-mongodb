@@ -16,7 +16,7 @@ parameters:
 requestBody:
   required: true
   content:
-    application/json:
+    multipart/form-data:
       schema:
         type: object
         properties:
@@ -34,7 +34,8 @@ requestBody:
             example: true
           photo:
             type: string
-            example: 'https://example.com/photo-updated.jpg'
+            format: binary
+            description: 'Фото контакту для оновлення'
         required:
           - name
           - phone
@@ -50,7 +51,7 @@ responses:
     content:
       application/json:
         schema:
-          $ref: '../../../components/responses/404.yaml'
+          $ref: '../../../components/responses/400.yaml'
   '404':
     description: Контакт не знайдено
     content:
@@ -59,3 +60,5 @@ responses:
           $ref: '../../../components/responses/404.yaml'
   '401':
     $ref: '../../../components/responses/401.yaml'
+  '500':
+    $ref: '../../../components/responses/500.yaml'
