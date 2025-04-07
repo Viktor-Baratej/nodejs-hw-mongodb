@@ -2,14 +2,14 @@ tags:
   - Contacts
 summary: Оновити контакт за Id
 operationId: updateContact
-description: Оновлює контакт за його унікальним ідентифікатором
+description: Оновлює контакт за його унікальним ідентифікатором. Підтримується оновлення лише тих полів, які передано в тілі запиту. Якщо фото нового контакту надається, воно буде оновлено.
 security:
   - bearerAuth: []
 parameters:
   - name: contactId
     in: path
     required: true
-    description: Унікальний ідентифікатор контакту
+    description: Унікальний ідентифікатор контакту, який потрібно оновити
     schema:
       type: string
       example: '60d6b3e32f9b8c001c2bb8d7'
@@ -23,19 +23,23 @@ requestBody:
           name:
             type: string
             example: 'Updated Name'
+            description: 'Нове імя контакту'
           email:
             type: string
             example: 'updated@example.com'
+            description: 'Оновлена електронна пошта контакту'
           phone:
             type: string
             example: '+380991234567'
+            description: 'Оновлений номер телефону контакту'
           favorite:
             type: boolean
             example: true
+            description: 'Позначка, чи є контакт у списку улюблених'
           photo:
             type: string
             format: binary
-            description: 'Фото контакту для оновлення'
+            description: 'Фото контакту для оновлення (бінарний формат)'
         required:
           - name
           - phone

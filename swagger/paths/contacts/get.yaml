@@ -41,13 +41,6 @@ parameters:
     required: false
     schema:
       type: string
-      example: 'favorite=true'
-    description: 'Фільтрація за певним параметром. Наприклад, favorite=true для фільтрації за улюбленими контактами.'
-  - name: type
-    in: query
-    required: false
-    schema:
-      type: string
       example: 'work'
     description: 'Фільтрація за типом контакту. Можливі значення: work, home, personal.'
   - name: isFavourite
