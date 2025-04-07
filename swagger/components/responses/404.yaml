@@ -1,15 +1,17 @@
-description: Not Found Error
 content:
   application/json:
     schema:
-      type: object
-      required:
-        - status
-        - message
       properties:
-        status:
-          type: integer
-          example: 404
         message:
+          description: Повідомлення про те, що запитуваний ресурс не існує.
+          example: Контакт не знайдено
           type: string
-          example: Contact not found
+        status:
+          description: HTTP статус код 404, що означає, що ресурс не знайдено.
+          example: 404
+          type: integer
+      required:
+      - status
+      - message
+      type: object
+description: Помилка "Не знайдено"

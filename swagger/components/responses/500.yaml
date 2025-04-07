@@ -1,14 +1,19 @@
-responses:
-  '500':
-    description: Серверна помилка
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            status:
-              type: integer
-              example: 500
-            message:
-              type: string
-              example: 'Internal Server Error'
+content:
+  application/json:
+    schema:
+      properties:
+        message:
+          description: Загальне повідомлення про помилку, яке вказує на проблеми на
+            стороні сервера.
+          example: Внутрішня помилка сервера. Сталася непередбачувана помилка на стороні
+            сервера.
+          type: string
+        status:
+          description: HTTP статус код 500, що вказує на внутрішню помилку сервера.
+          example: 500
+          type: integer
+      required:
+      - status
+      - message
+      type: object
+description: Помилка "Внутрішня помилка сервера"

@@ -1,24 +1,27 @@
-description: Unauthorized error
 content:
   application/json:
     schema:
-      type: object
-      required:
-        - status
-        - message
-        - data
       properties:
-        status:
-          type: integer
-          example: 401
-        message:
-          type: string
-          example: UnauthorizedError
         data:
-          type: object
-          required:
-            - message
           properties:
             message:
+              description: Детальніше повідомлення про причину помилки.
+              example: Токен доступу протермінований
               type: string
-              example: 'Access token expired'
+          required:
+          - message
+          type: object
+        message:
+          description: Код або тип помилки авторизації.
+          example: UnauthorizedError
+          type: string
+        status:
+          description: HTTP статус код 401, що означає відсутність авторизації.
+          example: 401
+          type: integer
+      required:
+      - status
+      - message
+      - data
+      type: object
+description: Помилка "Несанкціонований доступ"

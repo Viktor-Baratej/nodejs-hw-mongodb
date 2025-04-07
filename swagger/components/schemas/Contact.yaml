@@ -4,11 +4,16 @@ required:
   - name
   - phoneNumber
   - contactType
+  - userId
 properties:
   _id:
     description: 'Унікальний ID контакту'
     type: string
     example: '12345'
+  userId:
+    description: 'Ідентифікатор користувача, до якого належить цей контакт'
+    type: string
+    example: '60d6b3e32f9b8c001c2bb8d7'
   name:
     description: "Повне ім'я контакту"
     type: string
@@ -37,3 +42,4 @@ properties:
     description: 'URL фотографії контакту'
     type: string
     example: 'https://example.com/photo.jpg'
+

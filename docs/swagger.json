@@ -88,16 +88,6 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "favorite=true"
-            },
-            "description": "Фільтрація за певним параметром. Наприклад, favorite=true для фільтрації за улюбленими контактами."
-          },
-          {
-            "name": "type",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
               "example": "work"
             },
             "description": "Фільтрація за типом контакту. Можливі значення: work, home, personal."
@@ -212,7 +202,7 @@
                 "required": [
                   "name",
                   "phoneNumber",
-                  "email"
+                  "contactType"
                 ],
                 "properties": {
                   "name": {
@@ -369,7 +359,7 @@
         ],
         "summary": "Оновити контакт за Id",
         "operationId": "updateContact",
-        "description": "Оновлює контакт за його унікальним ідентифікатором",
+        "description": "Оновлює контакт за його унікальним ідентифікатором. Підтримується оновлення лише тих полів, які передано в тілі запиту. Якщо фото нового контакту надається, воно буде оновлено.",
         "security": [
           {
             "bearerAuth": []
@@ -380,7 +370,7 @@
             "name": "contactId",
             "in": "path",
             "required": true,
-            "description": "Унікальний ідентифікатор контакту",
+            "description": "Унікальний ідентифікатор контакту, який потрібно оновити",
             "schema": {
               "type": "string",
               "example": "60d6b3e32f9b8c001c2bb8d7"
@@ -396,24 +386,28 @@
                 "properties": {
                   "name": {
                     "type": "string",
-                    "example": "Updated Name"
+                    "example": "Updated Name",
+                    "description": "Нове імя контакту"
                   },
                   "email": {
                     "type": "string",
-                    "example": "updated@example.com"
+                    "example": "updated@example.com",
+                    "description": "Оновлена електронна пошта контакту"
                   },
                   "phone": {
                     "type": "string",
-                    "example": "+380991234567"
+                    "example": "+380991234567",
+                    "description": "Оновлений номер телефону контакту"
                   },
                   "favorite": {
                     "type": "boolean",
-                    "example": true
+                    "example": true,
+                    "description": "Позначка, чи є контакт у списку улюблених"
                   },
                   "photo": {
                     "type": "string",
                     "format": "binary",
-                    "description": "Фото контакту для оновлення"
+                    "description": "Фото контакту для оновлення (бінарний формат)"
                   }
                 },
                 "required": [
@@ -504,13 +498,19 @@
           "_id",
           "name",
           "phoneNumber",
-          "contactType"
+          "contactType",
+          "userId"
         ],
         "properties": {
           "_id": {
             "description": "Унікальний ID контакту",
             "type": "string",
             "example": "12345"
+          },
+          "userId": {
+            "description": "Ідентифікатор користувача, до якого належить цей контакт",
+            "type": "string",
+            "example": "60d6b3e32f9b8c001c2bb8d7"
           },
           "name": {
             "description": "Повне ім'я контакту",
@@ -552,61 +552,7 @@
     },
     "responses": {
       "400": {
-        "type": "object",
-        "required": [
-          "status",
-          "message"
-        ],
-        "properties": {
-          "status": {
-            "type": "integer",
-            "example": 400
-          },
-          "message": {
-            "type": "string",
-            "example": "Bad Request. The server could not understand the request due to invalid syntax."
-          }
-        }
-      },
-      "401": {
-        "description": "Unauthorized error",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "required": [
-                "status",
-                "message",
-                "data"
-              ],
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 401
-                },
-                "message": {
-                  "type": "string",
-                  "example": "UnauthorizedError"
-                },
-                "data": {
-                  "type": "object",
-                  "required": [
-                    "message"
-                  ],
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Access token expired"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "404": {
-        "description": "Not Found Error",
+        "description": "Помилка \"Невірний запит\"",
         "content": {
           "application/json": {
             "schema": {
@@ -618,40 +564,110 @@
               "properties": {
                 "status": {
                   "type": "integer",
-                  "example": 404
+                  "example": 400,
+                  "description": "HTTP статус код 400, що вказує на некоректний запит клієнта."
                 },
                 "message": {
                   "type": "string",
-                  "example": "Contact not found"
+                  "example": "Невірні дані у запиті.",
+                  "description": "Повідомлення про помилку, яке вказує на проблеми у запиті."
                 }
               }
             }
           }
         }
       },
-      "500": {
-        "responses": {
-          "500": {
-            "description": "Серверна помилка",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
+      "401": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "data": {
                   "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 500
-                    },
                     "message": {
-                      "type": "string",
-                      "example": "Internal Server Error"
+                      "description": "Детальніше повідомлення про причину помилки.",
+                      "example": "Токен доступу протермінований",
+                      "type": "string"
                     }
-                  }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                },
+                "message": {
+                  "description": "Код або тип помилки авторизації.",
+                  "example": "UnauthorizedError",
+                  "type": "string"
+                },
+                "status": {
+                  "description": "HTTP статус код 401, що означає відсутність авторизації.",
+                  "example": 401,
+                  "type": "integer"
                 }
-              }
+              },
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "type": "object"
             }
           }
-        }
+        },
+        "description": "Помилка \"Несанкціонований доступ\""
+      },
+      "404": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "message": {
+                  "description": "Повідомлення про те, що запитуваний ресурс не існує.",
+                  "example": "Контакт не знайдено",
+                  "type": "string"
+                },
+                "status": {
+                  "description": "HTTP статус код 404, що означає, що ресурс не знайдено.",
+                  "example": 404,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "status",
+                "message"
+              ],
+              "type": "object"
+            }
+          }
+        },
+        "description": "Помилка \"Не знайдено\""
+      },
+      "500": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "message": {
+                  "description": "Загальне повідомлення про помилку, яке вказує на проблеми на стороні сервера.",
+                  "example": "Внутрішня помилка сервера. Сталася непередбачувана помилка на стороні сервера.",
+                  "type": "string"
+                },
+                "status": {
+                  "description": "HTTP статус код 500, що вказує на внутрішню помилку сервера.",
+                  "example": 500,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "status",
+                "message"
+              ],
+              "type": "object"
+            }
+          }
+        },
+        "description": "Помилка \"Внутрішня помилка сервера\""
       }
     }
   }

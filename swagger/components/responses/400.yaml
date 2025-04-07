@@ -1,11 +1,17 @@
-type: object
-required:
-  - status
-  - message
-properties:
-  status:
-    type: integer
-    example: 400
-  message:
-    type: string
-    example: 'Bad Request. The server could not understand the request due to invalid syntax.'
+description: Помилка "Невірний запит"
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: integer
+          example: 400
+          description: HTTP статус код 400, що вказує на некоректний запит клієнта.
+        message:
+          type: string
+          example: Невірні дані у запиті.
+          description: Повідомлення про помилку, яке вказує на проблеми у запиті.
