@@ -36,7 +36,7 @@ parameters:
       enum: ['asc', 'desc']
       example: 'asc'
     description: 'Параметр для сортування у порядку зростання або спадання.'
-  - name: filter
+  - name: type
     in: query
     required: false
     schema:

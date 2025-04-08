@@ -29,7 +29,7 @@ requestBody:
             type: string
             example: '+380991234567'
           isFavourite:
-            description: 'Позначка, чи є контакт у списку обраних'
+            description: 'Чи є цей контакт улюбленим'
             type: boolean
             example: true
           contactType:

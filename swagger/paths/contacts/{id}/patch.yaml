@@ -2,14 +2,14 @@ tags:
   - Contacts
 summary: Оновити контакт за Id
 operationId: updateContact
-description: Оновлює контакт за його унікальним ідентифікатором. Підтримується оновлення лише тих полів, які передано в тілі запиту. Якщо фото нового контакту надається, воно буде оновлено.
+description: Оновлює контакт за його унікальним ідентифікатором
 security:
   - bearerAuth: []
 parameters:
   - name: contactId
     in: path
     required: true
-    description: Унікальний ідентифікатор контакту, який потрібно оновити
+    description: Унікальний ідентифікатор контакту
     schema:
       type: string
       example: '60d6b3e32f9b8c001c2bb8d7'
@@ -21,35 +21,34 @@ requestBody:
         type: object
         properties:
           name:
+            description: "Ім'я контакту"
             type: string
-            example: 'Updated Name'
-            description: 'Нове імя контакту'
+            example: 'Artem Baratej'
+          phoneNumber:
+            description: "Номер телефону контакту"
+            type: string
+            example: '+38011111111'
           email:
+            description: "Електронна пошта контакту"
             type: string
-            example: 'updated@example.com'
-            description: 'Оновлена електронна пошта контакту'
-          phone:
-            type: string
-            example: '+380991234567'
-            description: 'Оновлений номер телефону контакту'
-          favorite:
+            example: 'Tema1814@gmail.com'
+          isFavourite:
+            description: 'Чи є цей контакт улюбленим'
             type: boolean
             example: true
-            description: 'Позначка, чи є контакт у списку улюблених'
+          contactType:
+            description: 'Тип контакту (work, home, personal)'
+            type: string
+            enum:
+              - 'work'
+              - 'home'
+              - 'personal'
+            example: 'personal'
           photo:
+            description: "Аватар контакту"
             type: string
             format: binary
-            description: 'Фото контакту для оновлення (бінарний формат)'
-        required:
-          - name
-          - phone
 responses:
-  '200':
-    description: Контакт успішно оновлено
-    content:
-      application/json:
-        schema:
-          $ref: '../../../components/schemas/Contact.yaml'
   '400':
     $ref: '../../../components/responses/400.yaml'
   '404':
@@ -58,3 +57,62 @@ responses:
     $ref: '../../../components/responses/401.yaml'
   '500':
     $ref: '../../../components/responses/500.yaml'
+
+
+
+
+
+
+
+
+# tags:
+#   - Contacts
+# summary: Оновити контакт за Id
+# operationId: updateContact
+# description: Оновлює контакт за його унікальним ідентифікатором
+# security:
+#   - bearerAuth: []
+# parameters:
+#   - name: contactId
+#     in: path
+#     required: true
+#     description: Унікальний ідентифікатор контакту
+#     schema:
+#       type: string
+#       example: '60d6b3e32f9b8c001c2bb8d7'
+# requestBody:
+#   required: true
+#   content:
+#     multipart/form-data:
+#       schema:
+#         type: object
+#         properties:
+#           name:
+#             type: string
+#             example: 'Updated Name'
+#           email:
+#             type: string
+#             example: 'updated@example.com'
+#           phone:
+#             type: string
+#             example: '+380991234567'
+#           favorite:
+#             type: boolean
+#             example: true
+#           photo:
+#             type: string
+#             format: binary
+#             description: 'Фото контакту для оновлення (опційне поле)'
+#         required:
+#           - name
+#           - phone
+# responses:
+
+#   '400':
+#           $ref: '../../../components/responses/400.yaml'
+#   '404':
+#           $ref: '../../../components/responses/404.yaml'
+#   '401':
+#     $ref: '../../../components/responses/401.yaml'
+#   '500':
+#     $ref: '../../../components/responses/500.yaml'
