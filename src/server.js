@@ -104,7 +104,7 @@ function setupServer() {
   app.use(notFoundHandler);
   app.use(errorHandler);
 
-  const PORT = process.env.PORT || 3001;
+  const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
     console.log(`✅ Сервер працює на порту ${PORT}`);
     console.log(`📚 Документація Swagger: http://localhost:${PORT}/api-docs`);
