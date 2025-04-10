@@ -88,6 +88,11 @@
             "required": false,
             "schema": {
               "type": "string",
+              "enum": [
+                "work",
+                "home",
+                "personal"
+              ],
               "example": "work"
             },
             "description": "Фільтрація за типом контакту. Можливі значення: work, home, personal."
